@@ -10,18 +10,13 @@ class ToDoLogic {
 
   void giveData() async {
     // if (!box.isOpen) await initHive(); // Ensure box is open
-    print(box.get('test').toString());
     if (box.get('test') != null) {
-      print('object');
       GetData = box.get('test');
-    } else {
-      print('hioo');
     }
   }
 
   void storeData(data) {
     // if (!box.isOpen) await initHive(); // Ensure box is open
-    print('stored');
     box.put('test', data);
   }
 
