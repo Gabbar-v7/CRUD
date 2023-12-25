@@ -1,7 +1,7 @@
 # CRUD
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Gabbar-v7/CRUD/main/_res/ic_launcher.png" alt="CRUD Logo" height="200">
+  <img src="https://raw.githubusercontent.com/Gabbar-v7/CRUD/main/_git/crud_logo.png" alt="CRUD Logo" height="200">
 </p>
 <p align="center"> 
   <em>Create, Read, Update, Delete</em> </p>
@@ -29,6 +29,7 @@ Explore the latest releases and updates on our [release page](link_to_release_pa
 ## Getting Started
 
 1. **Clone the Repository:**
+
    ```bash
    git clone https://github.com/Gabbar-v7/CRUD.git
    ```
@@ -37,11 +38,11 @@ Explore the latest releases and updates on our [release page](link_to_release_pa
    ```bash
    cd CRUD
    ```
-4. **Get Dependencies:**
+3. **Get Dependencies:**
    ```bash
    flutter pub get
    ```
-5. **Run the App:**
+4. **Run the App:**
    ```bash
    flutter run
    ```
