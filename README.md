@@ -46,7 +46,7 @@ Explore the latest releases and updates on our [release page](link_to_release_pa
    flutter run
    ```
 
-For more details read the [Contributing.md]() and [contribution guidelines](link_to_contributing_guidelines).
+For more details read the [Contributing.md]().
 
 ## Sponsor
 
