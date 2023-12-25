@@ -3,8 +3,7 @@
 <p align="center">
   <img src="https://raw.githubusercontent.com/Gabbar-v7/CRUD/main/_res/ic_launcher.png" alt="CRUD Logo" height="200">
   <br>
-  
-  ## Create,Read,Update,Delete
+  <h3>Create,Read,Update,Delete</h3>
 </p>
 
 Flutter CRUD is your go-to mobile app, seamlessly blending tasks, notes, and challenges into a harmonious flow for ultimate productivity.
