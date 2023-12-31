@@ -1,29 +1,14 @@
 import 'package:CRUD/utils/mini_tools.dart';
+import 'package:CRUD/utils/user_data_manager.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 class ToDoLogic {
   // Hive
-  Box box = Hive.box<List<dynamic>>('test');
-  String key = 'todo';
-  List<dynamic> GetData = [];
-
-  void giveData() async {
-    // if (!box.isOpen) await initHive(); // Ensure box is open
-    if (box.get('test') != null) {
-      GetData = box.get('test');
-    }
-  }
-
-  void storeData(data) {
-    // if (!box.isOpen) await initHive(); // Ensure box is open
-    box.put('test', data);
-  }
+  UserDataManager db = UserDataManager('todo_tasks');
 
   //Constructor
   ToDoLogic() {
-    giveData();
-    tasksList = GetData;
+    tasksList = db.getData();
     orderTask();
   }
 
@@ -33,7 +18,7 @@ class ToDoLogic {
 
 //Task data variable
   late List<dynamic> tasksList = [];
-  List<String> subNames = ['Today...', 'Pending...', 'Future...', 'Completed'];
+  List<String> subNames = ['Today', 'Pending', 'Future', 'Completed'];
   List<dynamic> orderedList = [];
 
   void setCurrentDate() {
@@ -42,20 +27,18 @@ class ToDoLogic {
 
   void receiveData() {
     if (taskName.text != '') {
-      Map<String, dynamic> Data = {
+      Map<String, dynamic> data = {
         'label': taskName.text,
         'dueDate': selectedDate,
         'check': false
       };
-      tasksList.add(Data);
-      storeData(tasksList);
-      orderTask();
+      tasksList.insert(0, data);
+      MiniTool().mapListDateTimeSorter(tasksList, 'dueDate');
+      taskName.clear();
     }
   }
 
   void orderTask() {
-    MiniTool().mapListDateTimeSorter(tasksList, 'dueDate');
-
     List<dynamic> todaysTasks = [];
     List<dynamic> previousTasks = [];
     List<dynamic> futureTasks = [];
@@ -74,23 +57,31 @@ class ToDoLogic {
       }
     }
 
-    orderedList = [
-      subNames[0],
-      ...todaysTasks,
-      subNames[1],
-      ...previousTasks,
-      subNames[2],
-      ...futureTasks,
-      subNames[3],
-      ...completedTasks
-    ];
+    orderedList =
+        mergeTask([todaysTasks, previousTasks, futureTasks, completedTasks]);
+  }
+
+  List<dynamic> mergeTask(List<dynamic> nestedList) {
+    List<dynamic> ls = [];
+    for (int i = 0; i < nestedList.length; i++) {
+      if (nestedList[i].isNotEmpty) {
+        ls.add(subNames[i]);
+        ls.addAll(nestedList[i]);
+      }
+    }
+    return ls;
   }
 
   List<dynamic> displayList() {
     return orderedList;
   }
 
+  void removeTask(task) {
+    tasksList.remove(task);
+    updateBoxData();
+  }
+
   void updateBoxData() {
-    storeData(tasksList);
+    db.storeData(tasksList);
   }
 }

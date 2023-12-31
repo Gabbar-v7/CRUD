@@ -1,18 +1,19 @@
 import 'package:CRUD/logic/todolist.dart';
 import 'package:CRUD/universal/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
+// import 'package:flutter_slidable/flutter_slidable.dart';
 
-class ToDoList extends StatefulWidget {
-  ToDoList({super.key});
+class ToDoPage extends StatefulWidget {
+  const ToDoPage({super.key});
 
   @override
-  State<ToDoList> createState() => _ToDoList();
+  State<ToDoPage> createState() => _ToDoPage();
 }
 
-class _ToDoList extends State<ToDoList> {
+class _ToDoPage extends State<ToDoPage> {
   //Other page var i.e. class etc.
-  late var context;
-  late var appStyle;
+  late Styles appStyle;
   ToDoLogic logic = ToDoLogic();
 
 //Current page variables
@@ -20,10 +21,9 @@ class _ToDoList extends State<ToDoList> {
   late List<dynamic> displayTasks;
 
   //Frequent functions
-  void updateDisplayList() {
+  void updateData() {
     setState(() {
-      logic.orderTask();
-      displayTasks = logic.displayList();
+      logic.orderTask(); //List are mutable
     });
   }
 
@@ -123,19 +123,20 @@ class _ToDoList extends State<ToDoList> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: IconButton(
-          onPressed: () {
-            _modalSendFunction();
-          },
-          icon: Icon(
-            Icons.near_me,
-            size: 35,
-          )),
+        onPressed: () {
+          _modalSendFunction();
+        },
+        icon: Icon(
+          Icons.near_me,
+          size: 35,
+        ),
+      ),
     );
   }
 
   void _modalSendFunction() {
     logic.receiveData();
-    updateDisplayList();
+    updateData();
   }
 
   Widget taskTile(Data) {
@@ -148,47 +149,75 @@ class _ToDoList extends State<ToDoList> {
 
   Padding _tense(Data) {
     return Padding(
-      padding: EdgeInsets.all(8),
-      child: Center(
-          child: Text(
+      padding: EdgeInsets.symmetric(vertical: 8, horizontal: 25),
+      child: Text(
         Data,
         style: TextStyle(
-            fontSize: 27,
+            fontSize: 20,
             fontWeight: FontWeight.w600,
             color: Color.fromARGB(216, 0, 255, 242)),
-      )),
+      ),
     );
   }
 
-  Container _taskPackage(Data) {
+  Widget _taskPackage(Data) {
+    return _checkSwipe(Data);
+  }
+
+  GestureDetector _checkSwipe(Data) {
+    return GestureDetector(
+      onHorizontalDragEnd: (detail) {
+        if (detail.primaryVelocity! > 0) {
+          Data['check'] = !Data['check'];
+          updateData();
+          logic.updateBoxData();
+        }
+      },
+      child: Slidable(
+          endActionPane: ActionPane(motion: const BehindMotion(), children: [
+            SlidableAction(
+                padding: EdgeInsets.only(right: 10),
+                backgroundColor: Colors.red,
+                icon: Icons.delete,
+                label: 'Delete',
+                onPressed: (context) {
+                  logic.removeTask(Data);
+                  updateData();
+                }),
+          ]),
+          child: _tileContainer(Data)),
+    );
+  }
+
+  Container _tileContainer(Data) {
     return Container(
-      margin: EdgeInsets.all(8),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        color: const Color.fromARGB(31, 112, 108, 108),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [_taskDetails(Data), _taskDueDate(Data)],
-      ),
+        margin: EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          border: Border(left: BorderSide(color: Colors.white, width: 3)),
+          borderRadius: BorderRadius.circular(20),
+          color: const Color.fromARGB(31, 112, 108, 108),
+        ),
+        child: _tileroot(Data));
+  }
+
+  Column _tileroot(Data) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [_taskDetails(Data), _taskDueDate(Data)],
     );
   }
 
   Row _taskDetails(Data) {
     return Row(
       children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: Checkbox(
-              value: Data['check'],
-              onChanged: (bool? value) {
-                Data['check'] = value!;
-                //Update Hive data
-                logic.updateBoxData();
-                updateDisplayList();
-              }),
-        ),
+        Checkbox(
+            value: Data['check'],
+            onChanged: (bool? value) {
+              Data['check'] = value!;
+              logic.updateBoxData();
+              updateData();
+            }),
         _taskLabel(Data),
       ],
     );
@@ -199,6 +228,7 @@ class _ToDoList extends State<ToDoList> {
       padding: const EdgeInsets.only(left: 8.0),
       child: Text(
         Data['label'],
+        softWrap: true,
         style: TextStyle(
             fontSize: 23,
             fontWeight: FontWeight.w500,
@@ -224,8 +254,6 @@ class _ToDoList extends State<ToDoList> {
 
   @override
   Widget build(BuildContext context) {
-    this.context = context;
-
     //Getting display tasks
     displayTasks = logic.displayList();
 
@@ -235,7 +263,7 @@ class _ToDoList extends State<ToDoList> {
     return Scaffold(
         appBar: appStyle.appBar('To-Do List'),
         body: ListView.builder(
-            itemCount: logic.orderedList.length,
+            itemCount: displayTasks.length,
             itemBuilder: (context, index) {
               return taskTile(displayTasks[index]);
             }),
@@ -247,13 +275,14 @@ class _ToDoList extends State<ToDoList> {
     return Padding(
       padding: const EdgeInsets.only(right: 20, bottom: 30),
       child: FloatingActionButton(
+        elevation: 0,
         onPressed: () {
           logic.setCurrentDate();
           modalBottomSheet(context);
         },
         child: Icon(
           Icons.add,
-          size: 30,
+          size: 32,
         ),
       ),
     );

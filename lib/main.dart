@@ -1,4 +1,4 @@
-import 'package:CRUD/pages/todolist.dart';
+import 'package:CRUD/pages/splash.dart';
 
 // Flutter in-built packages
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 void main() async {
 // Managing Hive
   await Hive.initFlutter();
-  var box = await Hive.openBox<List<dynamic>>('test');
+  await Hive.openBox<List<dynamic>>('user_data');
 
   runApp(MyApp());
 }
@@ -26,10 +26,12 @@ class MyApp extends StatelessWidget {
       // Hide debug banner
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-          brightness: Brightness.dark, primarySwatch: Colors.deepPurple),
+        scaffoldBackgroundColor: Colors.black,
+        brightness: Brightness.dark,
+      ),
       title: 'CRUD',
       home: SafeArea(
-        child: ToDoList(),
+        child: SplashScreen(),
       ),
     );
   }
