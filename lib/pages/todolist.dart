@@ -136,6 +136,7 @@ class _ToDoPage extends State<ToDoPage> {
   void _modalSendFunction() {
     logic.receiveData();
     updateData();
+    logic.updateBoxData();
   }
 
   Widget taskTile(Data) {
