@@ -1,7 +1,6 @@
 import 'package:CRUD/logic/todolist.dart';
 import 'package:CRUD/universal/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 // import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ToDoPage extends StatefulWidget {
@@ -161,31 +160,18 @@ class _ToDoPage extends State<ToDoPage> {
   }
 
   Widget _taskPackage(Data) {
-    return _checkSwipe(Data);
-  }
-
-  GestureDetector _checkSwipe(Data) {
     return GestureDetector(
       onHorizontalDragEnd: (detail) {
         if (detail.primaryVelocity! > 0) {
           Data['check'] = !Data['check'];
           updateData();
           logic.updateBoxData();
+        } else if (detail.primaryVelocity! < 0) {
+          logic.removeTask(Data);
+          updateData();
         }
       },
-      child: Slidable(
-          endActionPane: ActionPane(motion: const BehindMotion(), children: [
-            SlidableAction(
-                padding: EdgeInsets.only(right: 10),
-                backgroundColor: Colors.red,
-                icon: Icons.delete,
-                label: 'Delete',
-                onPressed: (context) {
-                  logic.removeTask(Data);
-                  updateData();
-                }),
-          ]),
-          child: _tileContainer(Data)),
+      child: _tileContainer(Data),
     );
   }
 
