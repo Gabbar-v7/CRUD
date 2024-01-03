@@ -18,7 +18,6 @@ class ToDoLogic {
     lastLogin = MiniTool().lastLoginDate();
     removeOldCompleteTask(lastLogin);
     orderTask();
-    print(today);
   }
 
   //Task data variable
