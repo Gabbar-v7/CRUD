@@ -181,6 +181,7 @@ class _ToDoPage extends State<ToDoPage> {
 
   Container _taskContainer(Data) {
     return Container(
+      width: appStyle.deviceWidth,
       decoration: const BoxDecoration(
           border: Border(left: BorderSide(color: Colors.white, width: 2)),
           borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -190,6 +191,10 @@ class _ToDoPage extends State<ToDoPage> {
 
   ListTile _taskTile(Data) {
     return ListTile(
+      contentPadding: EdgeInsets.only(
+        left: 6,
+        right: 10,
+      ),
       title: Row(
         children: [_taskCheckBox(Data), _taskLabel(Data)],
       ),
@@ -212,7 +217,6 @@ class _ToDoPage extends State<ToDoPage> {
     return Text(
       Data['label'],
       style: TextStyle(
-          fontSize: 19,
           fontWeight: FontWeight.w500,
           decoration:
               Data['check'] ? TextDecoration.lineThrough : TextDecoration.none,
@@ -224,37 +228,49 @@ class _ToDoPage extends State<ToDoPage> {
 
   Padding _taskDueDate(Data) {
     return Padding(
-      padding: const EdgeInsets.only(left: 60.0, bottom: 10),
+      padding: const EdgeInsets.only(left: 55.0, bottom: 10),
       child: Text(
         '${Data["dueDate"].day}/${Data["dueDate"].month}',
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),
+        style: TextStyle(
+            color: Colors.white, fontWeight: FontWeight.w400, fontSize: 12),
       ),
     );
   }
 
   PopupMenuButton _moreOptions(Data) {
     return PopupMenuButton(
+      elevation: 0,
+      padding: EdgeInsets.all(0),
       splashRadius: 0,
       itemBuilder: (BuildContext context) {
         return [
-          PopupMenuItem(
-            child: Row(
-              children: [
-                Icon(Icons.delete),
-                Padding(
-                  padding: const EdgeInsets.only(left: 12.0),
-                  child: Text('Delete'),
-                )
-              ],
-            ),
-            value: 0,
-          )
+          _popUpMenuItem(0, Icons.delete, 'Delete'),
+          _popUpMenuItem(1, Icons.edit, 'Edit'),
         ];
       },
-      // onSelected: () {},
-      child: Icon(
+      onSelected: (value) {
+        logic.popUpClicked(value, Data);
+        updateData();
+      },
+      child: const Icon(
         Icons.more_vert,
         size: 28,
+      ),
+    );
+  }
+
+  PopupMenuItem<dynamic> _popUpMenuItem(
+      int value, IconData icon, String label) {
+    return PopupMenuItem(
+      value: value,
+      child: Row(
+        children: [
+          Icon(icon),
+          Padding(
+            padding: EdgeInsets.only(left: 7.0),
+            child: Text(label),
+          ),
+        ],
       ),
     );
   }

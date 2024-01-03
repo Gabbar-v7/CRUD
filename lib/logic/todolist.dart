@@ -6,23 +6,41 @@ class ToDoLogic {
   // Hive
   UserDataManager db = UserDataManager('todo_tasks');
 
+//Screen comunicator variable
+  TextEditingController taskName = TextEditingController();
+  DateTime today = MiniTool().currentDay();
+  DateTime selectedDate = MiniTool().currentDay();
+  late DateTime lastLogin;
+
   //Constructor
   ToDoLogic() {
     tasksList = db.getData();
+    lastLogin = MiniTool().lastLoginDate();
+    removeOldCompleteTask(lastLogin);
     orderTask();
+    print(today);
   }
 
-//Screen comunicator variable
-  TextEditingController taskName = TextEditingController();
-  DateTime selectedDate = DateTime.now();
-
-//Task data variable
+  //Task data variable
   late List<dynamic> tasksList = [];
   List<String> subNames = ['Today', 'Pending', 'Future', 'Completed'];
   List<dynamic> orderedList = [];
 
   void setCurrentDate() {
-    selectedDate = DateTime.now();
+    selectedDate = today;
+  }
+
+  // Removes old completed Tasks
+  void removeOldCompleteTask(lastLogin) {
+    if (lastLogin.isBefore(today)) {
+      var temp = tasksList;
+      for (int i = 0; i < tasksList.length; i++) {
+        if (temp[i]['check'] == true) {
+          tasksList.remove(temp[i]);
+        }
+      }
+      db.storeData(tasksList);
+    }
   }
 
   void receiveData() {
@@ -32,7 +50,7 @@ class ToDoLogic {
         'dueDate': selectedDate,
         'check': false
       };
-      tasksList.add(data);
+      tasksList.insert(0, data);
       MiniTool().mapListDateTimeSorter(tasksList, 'dueDate');
       taskName.clear();
     }
@@ -74,6 +92,14 @@ class ToDoLogic {
 
   List<dynamic> displayList() {
     return orderedList;
+  }
+
+  void popUpClicked(value, data) {
+    if (value == 0) {
+      removeTask(data);
+    } else if (value == 1) {
+      null;
+    }
   }
 
   void removeTask(task) {

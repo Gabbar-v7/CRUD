@@ -2,11 +2,11 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class UserDataManager {
   late String keyName;
-  var box = Hive.box<List<dynamic>>('user_data');
+  var box = Hive.box<dynamic>('user_data');
   List<dynamic> storedList = [];
 
-  UserDataManager(keyName) {
-    this.keyName = keyName;
+  UserDataManager(key) {
+    keyName = key;
   }
 
   //Crud operations
