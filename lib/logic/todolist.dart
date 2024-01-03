@@ -32,7 +32,7 @@ class ToDoLogic {
         'dueDate': selectedDate,
         'check': false
       };
-      tasksList.insert(0, data);
+      tasksList.add(data);
       MiniTool().mapListDateTimeSorter(tasksList, 'dueDate');
       taskName.clear();
     }

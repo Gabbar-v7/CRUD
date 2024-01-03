@@ -139,7 +139,7 @@ class _ToDoPage extends State<ToDoPage> {
     logic.updateBoxData();
   }
 
-  Widget taskTile(Data) {
+  Widget Tile(Data) {
     if (logic.subNames.contains(Data)) {
       return _tense(Data);
     } else {
@@ -160,81 +160,101 @@ class _ToDoPage extends State<ToDoPage> {
     );
   }
 
-  Widget _taskPackage(Data) {
-    return GestureDetector(
-      onHorizontalDragEnd: (detail) {
-        if (detail.primaryVelocity! > 0) {
-          Data['check'] = !Data['check'];
-          updateData();
-          logic.updateBoxData();
-        } else if (detail.primaryVelocity! < 0) {
-          logic.removeTask(Data);
-          updateData();
-        }
-      },
-      child: _tileContainer(Data),
-    );
-  }
-
-  Container _tileContainer(Data) {
-    return Container(
-        margin: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          border: Border(left: BorderSide(color: Colors.white, width: 3)),
-          borderRadius: BorderRadius.circular(20),
-          color: const Color.fromARGB(31, 112, 108, 108),
-        ),
-        child: _tileroot(Data));
-  }
-
-  Column _tileroot(Data) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [_taskDetails(Data), _taskDueDate(Data)],
-    );
-  }
-
-  Row _taskDetails(Data) {
-    return Row(
-      children: [
-        Checkbox(
-            value: Data['check'],
-            onChanged: (bool? value) {
-              Data['check'] = value!;
-              logic.updateBoxData();
-              updateData();
-            }),
-        _taskLabel(Data),
-      ],
-    );
-  }
-
-  Padding _taskLabel(Data) {
+  Padding _taskPackage(Data) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8.0),
-      child: Text(
-        Data['label'],
-        softWrap: true,
-        style: TextStyle(
-            fontSize: 23,
-            fontWeight: FontWeight.w500,
-            decoration: Data['check']
-                ? TextDecoration.lineThrough
-                : TextDecoration.none,
-            decorationStyle: TextDecorationStyle.solid,
-            decorationColor: Colors.black,
-            decorationThickness: 5),
+      padding: const EdgeInsets.all(10.0),
+      child: GestureDetector(
+        onHorizontalDragEnd: (detail) {
+          if (detail.primaryVelocity! > 0) {
+            Data['check'] = !Data['check'];
+            updateData();
+            logic.updateBoxData();
+          } else if (detail.primaryVelocity! < 0) {
+            logic.removeTask(Data);
+            updateData();
+          }
+        },
+        child: _taskContainer(Data),
       ),
+    );
+  }
+
+  Container _taskContainer(Data) {
+    return Container(
+      decoration: const BoxDecoration(
+          border: Border(left: BorderSide(color: Colors.white, width: 2)),
+          borderRadius: BorderRadius.all(Radius.circular(20))),
+      child: _taskTile(Data),
+    );
+  }
+
+  ListTile _taskTile(Data) {
+    return ListTile(
+      title: Row(
+        children: [_taskCheckBox(Data), _taskLabel(Data)],
+      ),
+      subtitle: _taskDueDate(Data),
+      trailing: _moreOptions(Data),
+    );
+  }
+
+  Checkbox _taskCheckBox(Data) {
+    return Checkbox(
+        value: Data['check'],
+        onChanged: (bool? value) {
+          Data['check'] = value!;
+          logic.updateBoxData();
+          updateData();
+        });
+  }
+
+  Text _taskLabel(Data) {
+    return Text(
+      Data['label'],
+      style: TextStyle(
+          fontSize: 19,
+          fontWeight: FontWeight.w500,
+          decoration:
+              Data['check'] ? TextDecoration.lineThrough : TextDecoration.none,
+          decorationStyle: TextDecorationStyle.solid,
+          decorationColor: Colors.black,
+          decorationThickness: 5),
     );
   }
 
   Padding _taskDueDate(Data) {
     return Padding(
-      padding: const EdgeInsets.only(left: 68.0, bottom: 10),
+      padding: const EdgeInsets.only(left: 60.0, bottom: 10),
       child: Text(
         '${Data["dueDate"].day}/${Data["dueDate"].month}',
         style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),
+      ),
+    );
+  }
+
+  PopupMenuButton _moreOptions(Data) {
+    return PopupMenuButton(
+      splashRadius: 0,
+      itemBuilder: (BuildContext context) {
+        return [
+          PopupMenuItem(
+            child: Row(
+              children: [
+                Icon(Icons.delete),
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: Text('Delete'),
+                )
+              ],
+            ),
+            value: 0,
+          )
+        ];
+      },
+      // onSelected: () {},
+      child: Icon(
+        Icons.more_vert,
+        size: 28,
       ),
     );
   }
@@ -252,7 +272,7 @@ class _ToDoPage extends State<ToDoPage> {
         body: ListView.builder(
             itemCount: displayTasks.length,
             itemBuilder: (context, index) {
-              return taskTile(displayTasks[index]);
+              return Tile(displayTasks[index]);
             }),
         floatingActionButton: _floatingButton());
   }
