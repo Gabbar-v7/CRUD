@@ -8,7 +8,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 void main() async {
 // Managing Hive
   await Hive.initFlutter();
-  await Hive.openBox<List<dynamic>>('user_data');
+  await Hive.openBox<dynamic>('user_data');
 
   runApp(MyApp());
 }

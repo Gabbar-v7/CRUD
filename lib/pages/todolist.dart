@@ -1,7 +1,6 @@
 import 'package:CRUD/logic/todolist.dart';
 import 'package:CRUD/universal/styles.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_slidable/flutter_slidable.dart';
 // import 'package:flutter_slidable/flutter_slidable.dart';
 
 class ToDoPage extends StatefulWidget {
@@ -137,9 +136,10 @@ class _ToDoPage extends State<ToDoPage> {
   void _modalSendFunction() {
     logic.receiveData();
     updateData();
+    logic.updateBoxData();
   }
 
-  Widget taskTile(Data) {
+  Widget Tile(Data) {
     if (logic.subNames.contains(Data)) {
       return _tense(Data);
     } else {
@@ -160,94 +160,117 @@ class _ToDoPage extends State<ToDoPage> {
     );
   }
 
-  Widget _taskPackage(Data) {
-    return _checkSwipe(Data);
-  }
-
-  GestureDetector _checkSwipe(Data) {
-    return GestureDetector(
-      onHorizontalDragEnd: (detail) {
-        if (detail.primaryVelocity! > 0) {
-          Data['check'] = !Data['check'];
-          updateData();
-          logic.updateBoxData();
-        }
-      },
-      child: Slidable(
-          endActionPane: ActionPane(motion: const BehindMotion(), children: [
-            SlidableAction(
-                padding: EdgeInsets.only(right: 10),
-                backgroundColor: Colors.red,
-                icon: Icons.delete,
-                label: 'Delete',
-                onPressed: (context) {
-                  logic.removeTask(Data);
-                  updateData();
-                }),
-          ]),
-          child: _tileContainer(Data)),
-    );
-  }
-
-  Container _tileContainer(Data) {
-    return Container(
-        margin: EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          border: Border(left: BorderSide(color: Colors.white, width: 3)),
-          borderRadius: BorderRadius.circular(20),
-          color: const Color.fromARGB(31, 112, 108, 108),
-        ),
-        child: _tileroot(Data));
-  }
-
-  Column _tileroot(Data) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [_taskDetails(Data), _taskDueDate(Data)],
-    );
-  }
-
-  Row _taskDetails(Data) {
-    return Row(
-      children: [
-        Checkbox(
-            value: Data['check'],
-            onChanged: (bool? value) {
-              Data['check'] = value!;
-              logic.updateBoxData();
-              updateData();
-            }),
-        _taskLabel(Data),
-      ],
-    );
-  }
-
-  Padding _taskLabel(Data) {
+  Padding _taskPackage(Data) {
     return Padding(
-      padding: const EdgeInsets.only(left: 8.0),
-      child: Text(
-        Data['label'],
-        softWrap: true,
-        style: TextStyle(
-            fontSize: 23,
-            fontWeight: FontWeight.w500,
-            decoration: Data['check']
-                ? TextDecoration.lineThrough
-                : TextDecoration.none,
-            decorationStyle: TextDecorationStyle.solid,
-            decorationColor: Colors.black,
-            decorationThickness: 5),
+      padding: const EdgeInsets.all(10.0),
+      child: GestureDetector(
+        onHorizontalDragEnd: (detail) {
+          if (detail.primaryVelocity! > 0) {
+            Data['check'] = !Data['check'];
+            updateData();
+            logic.updateBoxData();
+          } else if (detail.primaryVelocity! < 0) {
+            logic.removeTask(Data);
+            updateData();
+          }
+        },
+        child: _taskContainer(Data),
       ),
+    );
+  }
+
+  Container _taskContainer(Data) {
+    return Container(
+      width: appStyle.deviceWidth,
+      decoration: const BoxDecoration(
+          border: Border(left: BorderSide(color: Colors.white, width: 2)),
+          borderRadius: BorderRadius.all(Radius.circular(20))),
+      child: _taskTile(Data),
+    );
+  }
+
+  ListTile _taskTile(Data) {
+    return ListTile(
+      contentPadding: EdgeInsets.only(
+        left: 6,
+        right: 10,
+      ),
+      title: Row(
+        children: [_taskCheckBox(Data), _taskLabel(Data)],
+      ),
+      subtitle: _taskDueDate(Data),
+      trailing: _moreOptions(Data),
+    );
+  }
+
+  Checkbox _taskCheckBox(Data) {
+    return Checkbox(
+        value: Data['check'],
+        onChanged: (bool? value) {
+          Data['check'] = value!;
+          logic.updateBoxData();
+          updateData();
+        });
+  }
+
+  Text _taskLabel(Data) {
+    return Text(
+      Data['label'],
+      style: TextStyle(
+          fontWeight: FontWeight.w500,
+          decoration:
+              Data['check'] ? TextDecoration.lineThrough : TextDecoration.none,
+          decorationStyle: TextDecorationStyle.solid,
+          decorationColor: Colors.black,
+          decorationThickness: 5),
     );
   }
 
   Padding _taskDueDate(Data) {
     return Padding(
-      padding: const EdgeInsets.only(left: 68.0, bottom: 10),
+      padding: const EdgeInsets.only(left: 55.0, bottom: 10),
       child: Text(
         '${Data["dueDate"].day}/${Data["dueDate"].month}',
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),
+        style: TextStyle(
+            color: Colors.white, fontWeight: FontWeight.w400, fontSize: 12),
+      ),
+    );
+  }
+
+  PopupMenuButton _moreOptions(Data) {
+    return PopupMenuButton(
+      elevation: 0,
+      padding: EdgeInsets.all(0),
+      splashRadius: 0,
+      itemBuilder: (BuildContext context) {
+        return [
+          _popUpMenuItem(0, Icons.delete, 'Delete'),
+          _popUpMenuItem(1, Icons.edit, 'Edit'),
+        ];
+      },
+      onSelected: (value) {
+        logic.popUpClicked(value, Data);
+        updateData();
+      },
+      child: const Icon(
+        Icons.more_vert,
+        size: 28,
+      ),
+    );
+  }
+
+  PopupMenuItem<dynamic> _popUpMenuItem(
+      int value, IconData icon, String label) {
+    return PopupMenuItem(
+      value: value,
+      child: Row(
+        children: [
+          Icon(icon),
+          Padding(
+            padding: EdgeInsets.only(left: 7.0),
+            child: Text(label),
+          ),
+        ],
       ),
     );
   }
@@ -265,7 +288,7 @@ class _ToDoPage extends State<ToDoPage> {
         body: ListView.builder(
             itemCount: displayTasks.length,
             itemBuilder: (context, index) {
-              return taskTile(displayTasks[index]);
+              return Tile(displayTasks[index]);
             }),
         floatingActionButton: _floatingButton());
   }
