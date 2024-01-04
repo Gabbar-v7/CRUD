@@ -216,7 +216,9 @@ class _ToDoPage extends State<ToDoPage> {
   Text _taskLabel(Data) {
     return Text(
       Data['label'],
+      overflow: TextOverflow.ellipsis,
       style: TextStyle(
+          fontSize: 21,
           fontWeight: FontWeight.w500,
           decoration:
               Data['check'] ? TextDecoration.lineThrough : TextDecoration.none,
@@ -231,30 +233,32 @@ class _ToDoPage extends State<ToDoPage> {
       padding: const EdgeInsets.only(left: 55.0, bottom: 10),
       child: Text(
         '${Data["dueDate"].day}/${Data["dueDate"].month}',
-        style: TextStyle(
-            color: Colors.white, fontWeight: FontWeight.w400, fontSize: 12),
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400),
       ),
     );
   }
 
-  PopupMenuButton _moreOptions(Data) {
-    return PopupMenuButton(
-      elevation: 0,
-      padding: EdgeInsets.all(0),
-      splashRadius: 0,
-      itemBuilder: (BuildContext context) {
-        return [
-          _popUpMenuItem(0, Icons.delete, 'Delete'),
-          _popUpMenuItem(1, Icons.edit, 'Edit'),
-        ];
-      },
-      onSelected: (value) {
-        logic.popUpClicked(value, Data);
-        updateData();
-      },
-      child: const Icon(
-        Icons.more_vert,
-        size: 28,
+  Padding _moreOptions(Data) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 8.0),
+      child: PopupMenuButton(
+        elevation: 0,
+        padding: EdgeInsets.all(0),
+        splashRadius: 0,
+        itemBuilder: (BuildContext context) {
+          return [
+            _popUpMenuItem(0, Icons.delete, 'Delete'),
+            _popUpMenuItem(1, Icons.edit, 'Edit'),
+          ];
+        },
+        onSelected: (value) {
+          logic.popUpClicked(value, Data);
+          updateData();
+        },
+        child: const Icon(
+          Icons.more_vert,
+          size: 28,
+        ),
       ),
     );
   }
