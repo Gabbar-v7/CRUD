@@ -226,23 +226,26 @@ class _ToDoPage extends State<ToDoPage> {
         });
   }
 
-  //TaskName
-  SizedBox _taskLabel(Data) {
-    return SizedBox(
-      width: appStyle.deviceWidth * 0.63,
-      child: Text(
-        Data['label'],
-        overflow: TextOverflow.ellipsis,
-        maxLines: 2,
-        style: TextStyle(
-            fontSize: 21,
-            fontWeight: FontWeight.w500,
-            decoration: Data['check']
-                ? TextDecoration.lineThrough
-                : TextDecoration.none,
-            decorationStyle: TextDecorationStyle.solid,
-            decorationColor: Colors.black,
-            decorationThickness: 5),
+  //TaskName + styling
+  Padding _taskLabel(Data) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: SizedBox(
+        width: appStyle.deviceWidth * 0.63,
+        child: Text(
+          Data['label'],
+          overflow: TextOverflow.ellipsis,
+          maxLines: 2,
+          style: TextStyle(
+              fontSize: 21,
+              fontWeight: FontWeight.w500,
+              decoration: Data['check']
+                  ? TextDecoration.lineThrough
+                  : TextDecoration.none,
+              decorationStyle: TextDecorationStyle.solid,
+              decorationColor: Colors.black,
+              decorationThickness: 5),
+        ),
       ),
     );
   }
