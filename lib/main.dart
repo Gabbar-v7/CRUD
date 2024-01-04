@@ -10,7 +10,7 @@ void main() async {
   await Hive.initFlutter();
   await Hive.openBox<dynamic>('user_data');
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
       ),
       title: 'CRUD',
-      home: SafeArea(
+      home: const SafeArea(
         child: SplashScreen(),
       ),
     );
