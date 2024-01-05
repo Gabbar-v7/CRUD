@@ -167,7 +167,7 @@ class _ToDoPage extends State<ToDoPage> {
     );
   }
 
-  //Tasks -> GestureDetector - Container - ListTile(L: null, Title: Row(Checkbox, Text), S: Text, T: PopUpMenuButton)
+  //Tasks -> GestureDetector - Container - ListTile(L: CheckBox, Title: Text, S: Text, Trailing: PopUpMenuButton)
 
   Padding _taskPackage(Data) {
     return Padding(
@@ -199,17 +199,15 @@ class _ToDoPage extends State<ToDoPage> {
     );
   }
 
-  //Title Row
+  //ListTile
   ListTile _taskTile(Data) {
     return ListTile(
       contentPadding: const EdgeInsets.only(
         left: 6,
         right: 10,
       ),
-      title: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [_taskCheckBox(Data), _taskLabel(Data)],
-      ),
+      leading: _taskCheckBox(Data),
+      title: _taskLabel(Data),
       subtitle: _taskDueDate(Data),
       trailing: _moreOptions(Data),
     );
@@ -227,25 +225,22 @@ class _ToDoPage extends State<ToDoPage> {
   }
 
   //TaskName + styling
-  Padding _taskLabel(Data) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 8.0),
-      child: SizedBox(
-        width: appStyle.deviceWidth * 0.63,
-        child: Text(
-          Data['label'],
-          overflow: TextOverflow.ellipsis,
-          maxLines: 2,
-          style: TextStyle(
-              fontSize: 21,
-              fontWeight: FontWeight.w500,
-              decoration: Data['check']
-                  ? TextDecoration.lineThrough
-                  : TextDecoration.none,
-              decorationStyle: TextDecorationStyle.solid,
-              decorationColor: Colors.black,
-              decorationThickness: 5),
-        ),
+  SizedBox _taskLabel(Data) {
+    return SizedBox(
+      width: appStyle.deviceWidth * 0.63,
+      child: Text(
+        Data['label'],
+        overflow: TextOverflow.ellipsis,
+        maxLines: 2,
+        style: TextStyle(
+            fontSize: 21,
+            fontWeight: FontWeight.w500,
+            decoration: Data['check']
+                ? TextDecoration.lineThrough
+                : TextDecoration.none,
+            decorationStyle: TextDecorationStyle.solid,
+            decorationColor: Colors.black,
+            decorationThickness: 5),
       ),
     );
   }
@@ -253,7 +248,7 @@ class _ToDoPage extends State<ToDoPage> {
   //Subtitle DueDate
   Padding _taskDueDate(Data) {
     return Padding(
-      padding: const EdgeInsets.only(left: 55.0, bottom: 10),
+      padding: const EdgeInsets.only(left: 8.0),
       child: Text(
         '${Data["dueDate"].day}/${Data["dueDate"].month}',
         style:
