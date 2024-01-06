@@ -5,6 +5,6 @@ import 'package:flutter/material.dart';
 void changePage(context) {
   Timer(const Duration(milliseconds: 400), () {
     Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => ToDoPage()));
+        context, MaterialPageRoute(builder: (context) => const ToDoPage()));
   });
 }

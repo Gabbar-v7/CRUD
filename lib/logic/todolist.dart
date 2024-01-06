@@ -93,11 +93,14 @@ class ToDoLogic {
     return orderedList;
   }
 
-  void popUpClicked(value, data) {
+  bool popUpClicked(value, data) {
+    removeTask(data);
     if (value == 0) {
-      removeTask(data);
-    } else if (value == 1) {
-      null;
+      return false;
+    } else {
+      taskName.text = data['label'];
+      selectedDate = data['dueDate'];
+      return true;
     }
   }
 

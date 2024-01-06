@@ -35,14 +35,14 @@ class _SplashScreenState extends State<SplashScreen> {
                     width: 65,
                   ),
                 ),
-                Text(
+                const Text(
                   'CRUD',
                   style: TextStyle(fontWeight: FontWeight.w500, fontSize: 69),
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 18.0),
+            const Padding(
+              padding: EdgeInsets.only(top: 18.0),
               child: Text(
                 'Create, Read, Update, Delete',
                 style: TextStyle(fontWeight: FontWeight.w500, fontSize: 20),
