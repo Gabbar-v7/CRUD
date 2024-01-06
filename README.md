@@ -21,7 +21,7 @@ Explore the latest releases and updates on our [release page](link_to_release_pa
 ## Screenshots
 
 <p align="center">
-  <img="https://raw.githubusercontent.com/Gabbar-v7/CRUD/main/_git/todo_page.PNG" alt="Todo Page" height="400">
+  <img src="https://raw.githubusercontent.com/Gabbar-v7/CRUD/main/_git/todo_page.PNG" alt="Todo Page" height="400">
   <img src="https://raw.githubusercontent.com/Gabbar-v7/CRUD/main/_git/todo_edit.PNG" alt="Todo Edit" height="400">
   <img src="link_to_screenshot_3" alt="Screenshot 3" height="400">
 </p>
