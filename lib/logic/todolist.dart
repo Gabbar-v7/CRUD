@@ -15,7 +15,7 @@ class ToDoLogic {
   //Constructor
   ToDoLogic() {
     tasksList = db.getData();
-    lastLogin = MiniTool().lastLoginDate();
+    lastLogin = MiniTool().getLastLoginDate();
     removeOldCompleteTask(lastLogin);
     orderTask();
   }

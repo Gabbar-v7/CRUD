@@ -1,4 +1,5 @@
 import 'package:CRUD/pages/splash.dart';
+import 'package:CRUD/utils/app_init.dart';
 
 // Flutter in-built packages
 import 'package:flutter/material.dart';
@@ -9,6 +10,8 @@ void main() async {
 // Managing Hive
   await Hive.initFlutter();
   await Hive.openBox<dynamic>('user_data');
+
+  AppInit().setUp();
 
   runApp(const MyApp());
 }
