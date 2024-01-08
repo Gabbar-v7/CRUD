@@ -10,7 +10,7 @@ Flutter CRUD is your go-to mobile app, seamlessly blending tasks, notes, and cha
 
 ## Release
 
-Explore the latest releases and updates on our [release page](link_to_release_page).
+Explore the latest releases and updates on our [release page](https://github.com/Gabbar-v7/CRUD/releases).
 
 ## Features
 
