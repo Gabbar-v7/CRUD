@@ -1,22 +1,23 @@
 import 'package:CRUD/utils/mini_tools.dart';
 import 'package:CRUD/utils/user_data_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class ToDoLogic {
   // Hive
+  var box = Hive.box<dynamic>('user_data');
   UserDataManager db = UserDataManager('todo_tasks');
 
 //Screen comunicator variable
   TextEditingController taskName = TextEditingController();
-  DateTime today = MiniTool().currentDay();
-  DateTime selectedDate = MiniTool().currentDay();
+  DateTime today = MiniTool.justDate(DateTime.now());
+  late DateTime selectedDate;
   late DateTime lastLogin;
 
   //Constructor
   ToDoLogic() {
     tasksList = db.getData();
-    lastLogin = MiniTool().getLastLoginDate();
-    removeOldCompleteTask(lastLogin);
+    removeOldCompleteTask();
     orderTask();
   }
 
@@ -30,14 +31,16 @@ class ToDoLogic {
   }
 
   // Removes old completed Tasks
-  void removeOldCompleteTask(lastLogin) {
-    if (lastLogin.isBefore(today)) {
-      var temp = tasksList;
+  void removeOldCompleteTask() {
+    var lastDelete = box.get('last_delete');
+    if (lastDelete == null || lastDelete.isBefore(today)) {
+      var temp = List.from(tasksList);
       for (int i = 0; i < tasksList.length; i++) {
         if (temp[i]['check'] == true) {
           tasksList.remove(temp[i]);
         }
       }
+      box.put('last_delete', today);
       db.storeData(tasksList);
     }
   }
@@ -50,7 +53,7 @@ class ToDoLogic {
         'check': false
       };
       tasksList.insert(0, data);
-      MiniTool().mapListDateTimeSorter(tasksList, 'dueDate');
+      MiniTool.mapListDateTimeSorter(tasksList, 'dueDate');
       taskName.clear();
     }
   }
@@ -65,7 +68,7 @@ class ToDoLogic {
       DateTime taskDate = tasksList[i]['dueDate'];
       if (tasksList[i]['check'] == true) {
         completedTasks.add(tasksList[i]);
-      } else if (MiniTool().isSameDay(taskDate, DateTime.now())) {
+      } else if (MiniTool.isSameDay(taskDate, DateTime.now())) {
         todaysTasks.add(tasksList[i]);
       } else if (taskDate.isBefore(DateTime.now())) {
         previousTasks.add(tasksList[i]);
