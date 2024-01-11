@@ -315,7 +315,7 @@ class _ToDoPage extends State<ToDoPage> {
     appStyle = Styles(context);
 
     return Scaffold(
-        appBar: appStyle.appBar('To-Do List'),
+        appBar: appStyle.appBar(context, 'To-Do List'),
         body: ListView.builder(
             itemCount: displayTasks.length,
             itemBuilder: (context, index) {
@@ -324,7 +324,7 @@ class _ToDoPage extends State<ToDoPage> {
         floatingActionButton: _floatingButton());
   }
 
-// FloatingActionButton displays ModalBottomSheet
+  // FloatingActionButton displays ModalBottomSheet
   Padding _floatingButton() {
     return Padding(
       padding: const EdgeInsets.only(right: 20, bottom: 30),

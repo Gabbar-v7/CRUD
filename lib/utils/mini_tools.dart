@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 class MiniTool {
   static bool isSameDay(DateTime day_1, DateTime day_2) {
     return day_1.year == day_2.year &&
@@ -13,5 +15,11 @@ class MiniTool {
     mapList
         .sort((a, b) => (a[date] as DateTime).compareTo(b[date] as DateTime));
     return mapList;
+  }
+
+  static void pushPage(context, page) {
+    Future.delayed(Duration.zero, () {
+      Navigator.push(context, MaterialPageRoute(builder: (context) => page));
+    });
   }
 }
