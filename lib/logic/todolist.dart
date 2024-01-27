@@ -32,15 +32,15 @@ class ToDoLogic {
 
   // Removes old completed Tasks
   void removeOldCompleteTask() {
-    var lastDelete = box.get('last_delete');
-    if (lastDelete == null || lastDelete.isBefore(today)) {
+    var lastDelete = box.get('last_delete_task');
+    if (lastDelete == null || !MiniTool.isSameDay(lastDelete, today)) {
       var temp = List.from(tasksList);
       for (int i = 0; i < tasksList.length; i++) {
         if (temp[i]['check'] == true) {
           tasksList.remove(temp[i]);
         }
       }
-      box.put('last_delete', today);
+      box.put('last_delete_task', today);
       db.storeData(tasksList);
     }
   }

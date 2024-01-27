@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'package:CRUD/pages/menu.dart';
-import 'package:flutter/material.dart';
+import 'package:CRUD/utils/mini_tools.dart';
 
 void changePage(context) {
   Timer(const Duration(milliseconds: 400), () {
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => const MenuPage()));
+    MiniTool.pushReplace(context, const MenuPage());
   });
 }

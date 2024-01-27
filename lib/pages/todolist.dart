@@ -55,16 +55,7 @@ class _ToDoPage extends State<ToDoPage> {
   Padding _modalTextField() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-      child: TextField(
-        autofocus: true,
-        controller: logic.taskName,
-        focusNode: _textFocus,
-        decoration: InputDecoration(
-            labelText: ' Enter Task: ',
-            labelStyle: const TextStyle(fontWeight: FontWeight.w600),
-            border:
-                OutlineInputBorder(borderRadius: BorderRadius.circular(10))),
-      ),
+      child: appStyle.inputField('Enter Task:', logic.taskName, _textFocus, 18),
     );
   }
 
@@ -225,15 +216,14 @@ class _ToDoPage extends State<ToDoPage> {
   }
 
   //TaskName + styling
-  SizedBox _taskLabel(Data) {
-    return SizedBox(
-      width: appStyle.deviceWidth * 0.63,
-      child: Text(
+  Wrap _taskLabel(Data) {
+    return Wrap(children: [
+      Text(
         Data['label'],
         overflow: TextOverflow.ellipsis,
         maxLines: 2,
         style: TextStyle(
-            fontSize: 21,
+            fontSize: 18,
             fontWeight: FontWeight.w500,
             decoration: Data['check']
                 ? TextDecoration.lineThrough
@@ -242,7 +232,7 @@ class _ToDoPage extends State<ToDoPage> {
             decorationColor: Colors.black,
             decorationThickness: 5),
       ),
-    );
+    ]);
   }
 
   //Subtitle DueDate
@@ -321,25 +311,10 @@ class _ToDoPage extends State<ToDoPage> {
             itemBuilder: (context, index) {
               return Tile(displayTasks[index]);
             }),
-        floatingActionButton: _floatingButton());
-  }
-
-  // FloatingActionButton displays ModalBottomSheet
-  Padding _floatingButton() {
-    return Padding(
-      padding: const EdgeInsets.only(right: 20, bottom: 30),
-      child: FloatingActionButton(
-        elevation: 0,
-        onPressed: () {
+        floatingActionButton: appStyle.floatingButton(Icons.add, () {
           logic.taskName.clear();
           logic.setCurrentDate();
           modalBottomSheet(context);
-        },
-        child: const Icon(
-          Icons.add,
-          size: 32,
-        ),
-      ),
-    );
+        }));
   }
 }

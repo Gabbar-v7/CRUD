@@ -1,4 +1,5 @@
 import 'package:CRUD/logic/menu.dart';
+import 'package:CRUD/pages/counter.dart';
 import 'package:CRUD/pages/todolist.dart';
 import 'package:CRUD/universal/styles.dart';
 import 'package:flutter/material.dart';
@@ -14,13 +15,13 @@ class _MenuPage extends State<MenuPage> {
   MenuLogic logic = MenuLogic();
   late Styles appStyle;
 
-  Map pages = {'To-Do List': const ToDoPage()};
+  Map pages = {'To-Do List': const ToDoPage(), 'Counter': const CounterPage()};
 
   // Runs as soon as class is initialized
   @override
   void initState() {
     super.initState();
-    logic.menuPushPage(context, pages['To-Do List']);
+    logic.menuPushPage(context, pages['Counter']);
   }
 
   Padding pageLayout() {
@@ -34,6 +35,7 @@ class _MenuPage extends State<MenuPage> {
           Column(
             children: [
               _pageButton('To-Do List', pages['To-Do List']),
+              _pageButton('Counter', pages['Counter']),
             ],
           ),
 
