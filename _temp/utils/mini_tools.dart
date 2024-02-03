@@ -22,4 +22,13 @@ class MiniTool {
       Navigator.push(context, MaterialPageRoute(builder: (context) => page));
     });
   }
+
+  static pushReplace(context, page) {
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => page));
+  }
+
+  static void popPage(context) {
+    Navigator.pop(context);
+  }
 }

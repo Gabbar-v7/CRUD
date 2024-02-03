@@ -7,6 +7,7 @@ class ToDoLogic {
   // Hive
   var box = Hive.box<dynamic>('user_data');
   UserDataManager db = UserDataManager('todo_tasks');
+  late Map? updateTask;
 
 //Screen comunicator variable
   TextEditingController taskName = TextEditingController();
@@ -32,15 +33,15 @@ class ToDoLogic {
 
   // Removes old completed Tasks
   void removeOldCompleteTask() {
-    var lastDelete = box.get('last_delete');
-    if (lastDelete == null || lastDelete.isBefore(today)) {
+    var lastDelete = box.get('last_delete_task');
+    if (lastDelete == null || !MiniTool.isSameDay(lastDelete, today)) {
       var temp = List.from(tasksList);
       for (int i = 0; i < tasksList.length; i++) {
         if (temp[i]['check'] == true) {
           tasksList.remove(temp[i]);
         }
       }
-      box.put('last_delete', today);
+      box.put('last_delete_task', today);
       db.storeData(tasksList);
     }
   }
@@ -52,7 +53,12 @@ class ToDoLogic {
         'dueDate': selectedDate,
         'check': false
       };
-      tasksList.insert(0, data);
+      if (updateTask == null) {
+        tasksList.insert(0, data);
+      } else {
+        tasksList[tasksList.indexOf(updateTask)] = data;
+        updateTask = null;
+      }
       MiniTool.mapListDateTimeSorter(tasksList, 'dueDate');
       taskName.clear();
     }
@@ -97,10 +103,12 @@ class ToDoLogic {
   }
 
   bool popUpClicked(value, data) {
-    removeTask(data);
+    updateTask = null;
     if (value == 0) {
+      removeTask(data);
       return false;
     } else {
+      updateTask = data;
       taskName.text = data['label'];
       selectedDate = data['dueDate'];
       return true;
