@@ -12,21 +12,24 @@ class Styles {
   }
 
   AppBar appBar(String pageName,
-      {IconData icon = Icons.arrow_back_ios_new, List<Widget>? actions}) {
-    return AppBar(
-      elevation: 0,
-      leading: IconButton(
-        onPressed: () => NavManager.popPage(context),
-        icon: Icon(
-          icon,
-          size: 27,
+          {IconData icon = Icons.arrow_back_ios_new, List<Widget>? actions}) =>
+      AppBar(
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () => NavManager.popPage(context),
+          icon: Icon(
+            icon,
+            size: 23.04,
+          ),
         ),
-      ),
-      title: Text(
-        pageName,
-        style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-      ),
-      actions: actions,
-    );
-  }
+        title: Text(
+          pageName,
+          style: const TextStyle(fontSize: 23.04, fontWeight: FontWeight.w400),
+        ),
+        actions: actions,
+      );
+
+  Padding pageBorder(Widget child) => Padding(
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 13),
+      child: child);
 }

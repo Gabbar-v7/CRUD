@@ -2,7 +2,6 @@ import 'package:CRUD/pages/menu.dart';
 import 'package:CRUD/utils/color_schemes.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'pages/test.dart';
 
 void main() async {
   await Hive.initFlutter();
