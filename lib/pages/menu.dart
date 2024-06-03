@@ -20,11 +20,16 @@ class _MenuPage extends State<MenuPage> {
   Map pages = {'ToDoPage': const ToDoPage(), 'TestPage': const TestPage()};
 
   @override
+  void initState() {
+    super.initState();
+    NavManager.pushPage(
+        context, pages[box.get('init_page', defaultValue: 'ToDoPage')]);
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     appStyle;
-    NavManager.pushPage(
-        context, pages[box.get('init_page', defaultValue: 'ToDoPage')]);
   }
 
   Padding pageColumn() {
