@@ -1,34 +1,38 @@
-
 import 'package:CRUD/logic/todo_list.dart';
 import 'package:CRUD/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+
 class ToDoPage extends StatefulWidget {
-   const ToDoPage({super.key});
+  const ToDoPage({super.key});
   @override
   State<ToDoPage> createState() => _ToDoPage();
 }
 
 class _ToDoPage extends State<ToDoPage> {
   late Styles appStyle = Styles(context);
+  late Styles modalStyle = Styles(context);
+  final TextEditingController _controller = TextEditingController();
   List<dynamic> displayTasks = [];
   late ToDoLogic logic;
-  bool initialized=false;
-  
+  bool initialized = false;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-      if (!initialized){appStyle;
+    if (!initialized) {
+      appStyle;
       logic = ToDoLogic(
           displayTasks,
           () => setState(() {
                 displayTasks;
               }));
-    initialized=true;}
+      initialized = true;
+    }
   }
 
   @override
-  void dispose(){
+  void dispose() {
     super.dispose();
     logic.worker.end();
   }
@@ -94,20 +98,88 @@ class _ToDoPage extends State<ToDoPage> {
             )));
   }
 
-
-  StatefulBuilder taskModalSheet() {
-    final TextEditingController controller =TextEditingController();
-    return  StatefulBuilder(
-
-      builder: (context, setstate) => 
-        Column(
+  StatefulBuilder taskModalSheet(String type, Map task) {
+    return StatefulBuilder(
+      builder: (context, setstate) => Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          TextField(
-            controller: controller,
-      ),
+          const Gap(7),
+          modalStyle.appBar(type,
+              backgroundColor: Colors.transparent, actions: []),
+          Padding(
+            padding: EdgeInsets.only(
+                top: 20.0,
+                right: 20,
+                left: 20,
+                bottom: MediaQuery.of(context).viewInsets.bottom),
+            child: TextField(
+              autofocus: true,
+              decoration: const InputDecoration(
+                  focusColor: Colors.white,
+                  labelText: ' Enter task',
+                  labelStyle: TextStyle(
+                      color: Colors.white70, fontWeight: FontWeight.w400),
+                  floatingLabelStyle: TextStyle(
+                    color: Colors.white70,
+                    fontSize: 16,
+                    fontWeight: FontWeight.normal,
+                  ),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(10)),
+                      borderSide: BorderSide(color: Colors.white))),
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+              controller: _controller,
+              cursorColor: Colors.white70,
+              textCapitalization: TextCapitalization.sentences,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 30),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                ElevatedButton.icon(
+                  onPressed: () => showDatePicker(
+                    context: context,
+                    initialDate: task['dueDate'],
+                    firstDate: DateTime(2000),
+                    lastDate: DateTime(5000),
+                    
+                  ),
+                  label: Text(
+                    '${task['dueDate'].day}/${task['dueDate'].month}',
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                      letterSpacing: 2,
+                    ),
+                  ),
+                  icon: const Icon(Icons.calendar_month_rounded),
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(
+                        const Color.fromARGB(255, 252, 252, 252)),
+                    foregroundColor: WidgetStateProperty.all(Colors.black),
+                  ),
+                ),
+                const Gap(30),
+                IconButton(
+                    onPressed: (){},
+                    icon: const Icon(
+                      Icons.send,
+                      size: 33,
+                      color: Colors.white,
+                    ))
+              ],
+            ),
+          ),
+          const Gap(20),
         ],
-    ),
-      );
+      ),
+    );
   }
 
   @override
@@ -131,6 +203,7 @@ class _ToDoPage extends State<ToDoPage> {
                       BorderRadius.vertical(top: Radius.circular(30.0)),
                 ),
                 context: context,
-                builder: (context) => taskModalSheet())));
+                builder: (context) => taskModalSheet(
+                    'Create', {'title': '', 'dueDate': logic.today}))));
   }
 }

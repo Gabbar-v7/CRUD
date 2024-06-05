@@ -13,9 +13,9 @@ class Styles {
   }
 
   AppBar appBar(String pageName,
-          {IconData icon = Icons.arrow_back_ios_new, List<Widget>? actions}) =>
+          {IconData icon = Icons.arrow_back_ios_new, List<Widget>? actions,Color backgroundColor=const Color.fromARGB(225, 17,19,21)}) =>
       AppBar(
-        backgroundColor: const Color.fromARGB(225, 17,19,21),
+        backgroundColor: backgroundColor,
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: Colors.black38, // Set your desired color
           statusBarIconBrightness: Brightness.light, // For Android (dark icons)

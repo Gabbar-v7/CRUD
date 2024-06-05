@@ -6,7 +6,7 @@ import 'package:CRUD/utils/mini_tools.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class ToDoLogic {
-  late Worker worker ;
+  late Worker worker;
   late List<dynamic> displayTasks;
   List<String> category = [' Today', ' Previous', 'Future', ' Completed'];
   // List<String> operation = ['create', 'update', 'delete'];
@@ -14,49 +14,64 @@ class ToDoLogic {
   DateTime today = MiniTool.justDate(DateTime.now());
 
   ToDoLogic(this.displayTasks, Function updateUi) {
-     worker = Worker(displayTasks, updateUi);   
+    worker = Worker(displayTasks, updateUi);
   }
 }
 
 class Worker {
   late final Isolate isolate;
-  Completer<void> isolateReady=Completer<void>();
+  Completer<void> isolateReady = Completer<void>();
   late SendPort sendPort;
   late String path;
+  Box box = Hive.box('user_data');
   List<dynamic> displayTasks;
-  Function updateUi ;
+  Function updateUi;
 
-  Worker(this.displayTasks, this.updateUi){
-  spawn();
+  Worker(this.displayTasks, this.updateUi) {
+    try {
+      spawn();
+    } catch (error) {
+      null;
+    }
   }
 
-  void spawn()async{
+  void spawn() async {
     Directory dir = await getApplicationDocumentsDirectory();
-     path = dir.path;
+    path = dir.path;
     ReceivePort receivePort = ReceivePort();
 
     receivePort.listen(_responsesFromIsolate);
 
-     isolate = await Isolate.spawn(_remoteIsolate, receivePort.sendPort);
+    isolate = await Isolate.spawn(_remoteIsolate, receivePort.sendPort);
   }
 
-  void crudIsolate(String type, Map task){
+  void crudIsolate(String type, Map task) {
     sendPort.send([type, task]);
   }
 
-  void end(){
-    isolate.kill();
+  void end() {
+    try {
+      isolate.kill();
+    } catch (error) {
+      null;
+    }
   }
 
   void _responsesFromIsolate(dynamic message) {
-   if (message is List) {
-    displayTasks.clear();
-    displayTasks.addAll(message);
-    updateUi();
-  } else if (message is SendPort) {
-    sendPort=message;
-    isolateReady.complete();
-    sendPort.send(path);
+    if (message is List) {
+      displayTasks.clear();
+      displayTasks.addAll(message);
+      updateUi();
+    } else if (message is SendPort) {
+      sendPort = message;
+      isolateReady.complete();
+
+      DateTime today = DateTime.now();
+      if (!MiniTool.isSameDay(today, box.get('last_task_delete'))) {
+        sendPort.send({'path': path, 'deleteAll': true});
+      } else {
+        sendPort.send({'path': path, 'deleteAll': false});
+      }
     }
   }
 
@@ -64,44 +79,54 @@ class Worker {
     final receivePort = ReceivePort();
     sendPort.send(receivePort.sendPort);
     late Box taskBox;
-  late List<dynamic> orderedTasks;
-  late List<dynamic> displayTasks=[];
+    late List<dynamic> orderedTasks;
+    late List completedTasks;
+    late List<dynamic> displayTasks = [];
 
     receivePort.listen((dynamic message) async {
-    if (message is List) {
-      String operation = message[0];
-      Map task = message[1];
+      if (message is List) {
+        String operation = message[0];
+        Map task = message[1];
 
-      if (operation=='create'){
-        taskBox.put(task['key'], task);
-        orderedTasks.add(task);
-        orderTask(orderedTasks, displayTasks);
-        sendPort.send(displayTasks);
+        if (operation == 'create') {
+          taskBox.put(task['key'], task);
+          orderedTasks.add(task);
+          orderTask(orderedTasks, displayTasks);
+          sendPort.send(displayTasks);
+        } else if (operation == 'update') {
+          orderedTasks[orderedTasks.indexOf(taskBox.get(task['key']))] = task;
+          taskBox.put(task['key'], task);
+          orderTask(orderedTasks, displayTasks);
+          sendPort.send(displayTasks);
+        } else if (operation == 'delete') {
+          orderedTasks.remove(task);
+          taskBox.delete(task['key']);
+          orderTask(orderedTasks, displayTasks);
+          sendPort.send(displayTasks);
+        }
+      } else if (message is Map) {
+        Hive.init(message['path']);
+        taskBox = await Hive.openBox<Map>('todo_box');
+        orderedTasks = taskBox.values.toList();
+        orderedTasks.sort(
+          (a, b) => a['dueDate'].compareTo(b['dueDate']),
+        );
+        completedTasks = orderTask(orderedTasks, displayTasks);
+        if (message['deleteAll'] == true) {
+          displayTasks.remove(completedTasks);
+          sendPort.send(displayTasks);
+          orderedTasks.remove(completedTasks);
+          for (Map task in completedTasks) {
+            taskBox.delete(task['key']);
+          }
+        } else {
+          sendPort.send(displayTasks);
+        }
       }
-      else if (operation == 'update'){
-        orderedTasks[orderedTasks.indexOf(taskBox.get(task['key']))]=task;
-        taskBox.put(task['key'], task);
-        orderTask(orderedTasks, displayTasks);
-        sendPort.send(displayTasks);
-      }
-      else if(message[0]=='delete'){
-        orderedTasks.remove(task);
-        taskBox.delete(task['key']);
-        orderTask(orderedTasks, displayTasks);
-        sendPort.send(displayTasks);
-      }
-    }
-    else if(message is String){
-      Hive.init(message);
-      taskBox =await Hive.openBox('todo_box');
-      orderedTasks = taskBox.values.toList();
-      orderTask(orderedTasks, displayTasks);
-      sendPort.send(displayTasks);
-    }
-  });
+    });
   }
 
-static void orderTask(List orderedTasks, List displayTasks) {
+  static List orderTask(List orderedTasks, List displayTasks) {
     List<dynamic> todaysTasks = [];
     List<dynamic> previousTasks = [];
     List<dynamic> futureTasks = [];
@@ -122,14 +147,14 @@ static void orderTask(List orderedTasks, List displayTasks) {
         futureTasks.add(task);
       }
     }
-    List nestedList=[todaysTasks, previousTasks, futureTasks,completedTasks];
+    List nestedList = [todaysTasks, previousTasks, futureTasks, completedTasks];
     displayTasks.clear();
     for (int i = 0; i < nestedList.length; i++) {
       if (nestedList[i].isNotEmpty) {
         displayTasks.add(category[i]);
         displayTasks.addAll(nestedList[i]);
-      }}
-    
+      }
+    }
+    return completedTasks;
   }
-
 }
