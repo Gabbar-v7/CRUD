@@ -13,7 +13,7 @@ class Styles {
   }
 
   AppBar appBar(String pageName,
-          {IconData icon = Icons.arrow_back_ios_new, List<Widget>? actions,Color backgroundColor=const Color.fromARGB(225, 17,19,21)}) =>
+          {IconData icon = Icons.arrow_back_ios_new, List<Widget>? actions,Color backgroundColor= Colors.black}) =>
       AppBar(
         backgroundColor: backgroundColor,
         systemOverlayStyle: const SystemUiOverlayStyle(

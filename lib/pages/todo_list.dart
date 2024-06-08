@@ -1,4 +1,5 @@
 import 'package:CRUD/logic/todo_list.dart';
+import 'package:CRUD/utils/nav_manager.dart';
 import 'package:CRUD/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -56,7 +57,10 @@ class _ToDoPage extends State<ToDoPage> {
   GestureDetector taskTile(Map task) {
     return GestureDetector(
         key: ValueKey<String>(task['key']),
-        // onLongPress: () => ,
+        onLongPress: (){
+        _controller.text=task['title'];
+         taskModalSheet('Edit', Map<String,dynamic>.from(task));
+        }  ,
         onHorizontalDragEnd: (detail) {
           if (detail.primaryVelocity! > 0) {
             task['isDone'] = !task['isDone'];
@@ -98,22 +102,42 @@ class _ToDoPage extends State<ToDoPage> {
             )));
   }
 
-  StatefulBuilder taskModalSheet(String type, Map task) {
-    return StatefulBuilder(
-      builder: (context, setstate) => Column(
+  Future<Widget?> taskModalSheet(String type, Map task) {
+    return 
+    showModalBottomSheet(
+                backgroundColor: const Color.fromARGB(255, 39, 43, 48),
+                elevation: 0,
+                shape: const RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(30.0)),
+                ),
+                context: context,
+                builder: (context) => 
+    StatefulBuilder(
+      builder: (BuildContext context, StateSetter setState) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           const Gap(7),
-          modalStyle.appBar(type,
-              backgroundColor: Colors.transparent, actions: []),
+          modalStyle
+              .appBar(type, backgroundColor: Colors.transparent, actions: [
+            Padding(
+              padding: const EdgeInsets.only(right: 25.0),
+              child: IconButton(
+                onPressed: (type == 'Edit') ? () {
+                  
+                  logic.worker.crudIsolate('delete', task);
+                  NavManager.popPage(context);}: null,
+                icon: const Icon(Icons.delete, size: 25),
+                color: Colors.white,
+                disabledColor: Colors.white54,
+                enableFeedback: false,
+                splashColor: Colors.transparent,
+              ),
+            )
+          ]),
           Padding(
-            padding: EdgeInsets.only(
-                top: 20.0,
-                right: 20,
-                left: 20,
-                bottom: MediaQuery.of(context).viewInsets.bottom),
+            padding: const EdgeInsets.all(20),
             child: TextField(
-              autofocus: true,
               decoration: const InputDecoration(
                   focusColor: Colors.white,
                   labelText: ' Enter task',
@@ -138,18 +162,22 @@ class _ToDoPage extends State<ToDoPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 35),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 ElevatedButton.icon(
-                  onPressed: () => showDatePicker(
-                    context: context,
-                    initialDate: task['dueDate'],
-                    firstDate: DateTime(2000),
-                    lastDate: DateTime(5000),
-                    
-                  ),
+                  onPressed: () async {
+                    final DateTime? picked = await showDatePicker(
+                      context: context,
+                      initialDate: logic.today,
+                      firstDate: DateTime(2020),
+                      lastDate: DateTime(2030),
+                    );
+                    if ( picked != task['dueDate']) {
+                      setState(() => task['dueDate'] = picked);
+                    }
+                  },
                   label: Text(
                     '${task['dueDate'].day}/${task['dueDate'].month}',
                     style: const TextStyle(
@@ -167,7 +195,15 @@ class _ToDoPage extends State<ToDoPage> {
                 ),
                 const Gap(30),
                 IconButton(
-                    onPressed: (){},
+                    onPressed: () {
+                      if(_controller.text.isNotEmpty) {task['title'] = _controller.text;
+                      if (type == 'Create') {
+                        logic.worker.crudIsolate('create', task);
+                      } else {
+                        logic.worker.crudIsolate('update', task);
+                      }
+                      NavManager.popPage(context);}
+                    },
                     icon: const Icon(
                       Icons.send,
                       size: 33,
@@ -177,9 +213,10 @@ class _ToDoPage extends State<ToDoPage> {
             ),
           ),
           const Gap(20),
+          Gap(MediaQuery.of(context).viewInsets.bottom),
         ],
       ),
-    );
+    ));
   }
 
   @override
@@ -196,14 +233,12 @@ class _ToDoPage extends State<ToDoPage> {
               size: 25,
               color: Colors.white,
             ),
-            () => showModalBottomSheet(
-                backgroundColor: const Color.fromARGB(255, 39, 43, 48),
-                shape: const RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.vertical(top: Radius.circular(30.0)),
-                ),
-                context: context,
-                builder: (context) => taskModalSheet(
-                    'Create', {'title': '', 'dueDate': logic.today}))));
+            () {
+              _controller.text='';
+              taskModalSheet('Create', {'title':'','isDone':false, 'dueDate':logic.today});
+            } ));
   }
 }
+
+// taskModalSheet(
+//                     'Create', {'title': '', 'dueDate': logic.today,'isDone':false})

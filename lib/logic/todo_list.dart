@@ -67,8 +67,9 @@ class Worker {
       isolateReady.complete();
 
       DateTime today = DateTime.now();
-      if (!MiniTool.isSameDay(today, box.get('last_task_delete'))) {
+      if (!MiniTool.isSameDay(today, box.get('last_task_delete',defaultValue: DateTime(2020)))) {
         sendPort.send({'path': path, 'deleteAll': true});
+        box.put('last_task_delete', today);
       } else {
         sendPort.send({'path': path, 'deleteAll': false});
       }
@@ -87,8 +88,8 @@ class Worker {
       if (message is List) {
         String operation = message[0];
         Map task = message[1];
-
         if (operation == 'create') {
+          task['key'] = DateTime.now().toString();
           taskBox.put(task['key'], task);
           orderedTasks.add(task);
           orderTask(orderedTasks, displayTasks);
@@ -99,7 +100,7 @@ class Worker {
           orderTask(orderedTasks, displayTasks);
           sendPort.send(displayTasks);
         } else if (operation == 'delete') {
-          orderedTasks.remove(task);
+          orderedTasks.removeAt(orderedTasks.indexOf(taskBox.get(task['key'])));
           taskBox.delete(task['key']);
           orderTask(orderedTasks, displayTasks);
           sendPort.send(displayTasks);
@@ -112,7 +113,7 @@ class Worker {
           (a, b) => a['dueDate'].compareTo(b['dueDate']),
         );
         completedTasks = orderTask(orderedTasks, displayTasks);
-        if (message['deleteAll'] == true) {
+        if (message['deleteAll']) {
           displayTasks.remove(completedTasks);
           sendPort.send(displayTasks);
           orderedTasks.remove(completedTasks);
