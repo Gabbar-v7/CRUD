@@ -8,19 +8,20 @@ class Styles {
   late double deviceHeigth;
 
   Styles(this.context) {
-     deviceWidth = MediaQuery.of(context).size.width;
+    deviceWidth = MediaQuery.of(context).size.width;
     deviceHeigth = MediaQuery.of(context).size.height;
   }
 
   AppBar appBar(String pageName,
-          {IconData icon = Icons.arrow_back_ios_new, List<Widget>? actions,Color backgroundColor= Colors.black}) =>
+          {IconData icon = Icons.arrow_back_ios_new,
+          List<Widget>? actions,
+          Color backgroundColor = Colors.black}) =>
       AppBar(
         backgroundColor: backgroundColor,
         systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: Colors.black38, // Set your desired color
           statusBarIconBrightness: Brightness.light, // For Android (dark icons)
           statusBarBrightness: Brightness.dark, // For iOS (dark icons)
-          
         ),
         elevation: 0,
         leading: IconButton(
@@ -45,11 +46,10 @@ class Styles {
       padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
       child: child);
 
-  FloatingActionButton floatButton(Icon icon, onPress)=>
-    FloatingActionButton(
-      backgroundColor: Colors.deepPurple.shade300,
-      elevation: 0,
-        onPressed:  onPress,
+  FloatingActionButton floatButton(Icon icon, onPress) => FloatingActionButton(
+        backgroundColor: Colors.deepPurple.shade300,
+        elevation: 0,
+        onPressed: onPress,
         child: icon,
-    );
+      );
 }
