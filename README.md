@@ -1,66 +1,51 @@
-# CRUD: Streamline Your Focus
+<div align="center">
+  <img src="https://github.com/Gabbar-v7/CRUD/blob/master/_git/crud_logo.png" alt="CRUD Logo" width="100px"/> 
+</div>
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Gabbar-v7/CRUD/main/_git/crud_logo.png" alt="CRUD Logo" height="200">
-</p>
-<p align="center"> 
-  <em>Create, Read, Update, Delete</em> </p>
+# CRUD: Streamline Your Focus <img src='https://img.shields.io/github/repo-size/Gabbar-v7/CRUD?style=for-the-badge&label=REPO%20SIZE&labelColor=302D41&color=cba6f7' align='right' alt='Repo Size'>
 
-Flutter CRUD is your go-to mobile app, seamlessly blending tasks, notes, and challenges into a harmonious flow for ultimate productivity.
+_Social buttons_
 
-## Release
+[![Gabbar-v7 - CRUD](https://img.shields.io/static/v1?label=Gabbar-v7&message=CRUD&color=blueviolet&logo=github)](https://github.com/Gabbar-v7/CRUD "Go to GitHub repo")
+[![stars - CRUD](https://img.shields.io/github/stars/Gabbar-v7/CRUD?style=social)](https://github.com/Gabbar-v7/CRUD)
+[![forks - CRUD](https://img.shields.io/github/forks/Gabbar-v7/CRUD?style=social)](https://github.com/Gabbar-v7/CRUD)
 
-Explore the latest releases and updates on our [release page](link_to_release_page).
 
-## Features
+_Repo metadata_
 
-- **Task Mastery:** Effortlessly manage tasks in one unified space.
-- **Thought Capture:** Instantly jot down thoughts and brilliant ideas.
-- **Challenge Tracker:** Stay on top of personal challenges with ease.
 
-## Screenshots
+[![GitHub release](https://img.shields.io/github/release/Gabbar-v7/CRUD?include_prereleases=&sort=semver&color=blueviolet)](https://github.com/Gabbar-v7/CRUD/releases/)
+[![License](https://img.shields.io/badge/License-MIT-blueviolet)](#license)
+[![issues - CRUD](https://img.shields.io/github/issues/Gabbar-v7/CRUD)](https://github.com/Gabbar-v7/CRUD/issues)
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Gabbar-v7/CRUD/main/_git/todo_page.PNG" alt="Todo Page" height="400">
-  <img src="https://raw.githubusercontent.com/Gabbar-v7/CRUD/main/_git/todo_edit.PNG" alt="Todo Edit" height="400">
-  <img src="link_to_screenshot_3" alt="Screenshot 3" height="400">
-</p>
+_Call-to-Action buttons_
 
-## Getting Started
+<div align="center">
 
-1. **Clone the Repository:**
 
-   ```bash
-   git clone https://github.com/Gabbar-v7/CRUD.git
-   ```
 
-2. **Navigate to the Project Directory:**
-   ```bash
-   cd CRUD
-   ```
-3. **Get Dependencies:**
-   ```bash
-   flutter pub get
-   ```
-4. **Run the App:**
-   ```bash
-   flutter run
-   ```
 
-For more details read the [Contributing.md]().
 
-## Sponsor
+</div>
 
-If CRUD is enhancing your life, consider supporting the project by [donating](link_to_donation_page). Your contribution fuels ongoing development.
+## Project Resources:
 
-## Contributing
+<div align="center">
 
-We welcome contributions! Review our [contribution guidelines](link_to_contributing_guidelines) to become part of the Flutter CRUD community.
+[![view - Documentation](https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge)](/docs/ "Go to project documentation")
 
-## License
+</div>
 
-This project is licensed under the [MIT License](link_to_license).
+## Project Sponsorship:
 
----
+<div align='center'>
+  
+  [![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)]() 
+  [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.me/nullset7)
 
-**Note:** .
+</div>
+
+
+### License:
+
+This project is licensed under the MIT License - [LICENSE.md](https://github.com/Gabbar-v7)
