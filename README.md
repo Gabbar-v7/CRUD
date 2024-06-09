@@ -46,6 +46,6 @@ _Call-to-Action buttons_
 </div>
 
 
-### License:
+## License:
 
 This project is licensed under the MIT License - [LICENSE.md](https://github.com/Gabbar-v7)
