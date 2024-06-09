@@ -205,7 +205,6 @@ class _ToDoPage extends State<ToDoPage> {
                                 task['title'] = _controller.text;
                                 if (type == 'Create') {
                                   logic.worker.crudIsolate('create', task);
-                                  _controller.text='';
                                 } else {
                                   logic.worker.crudIsolate('update', task);
                                 }
