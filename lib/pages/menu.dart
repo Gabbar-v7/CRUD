@@ -32,61 +32,59 @@ class _MenuPage extends State<MenuPage> {
     appStyle;
   }
 
-  Padding pageColumn() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20.0, right: 16, bottom: 0, left: 16),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          pageButton('To-Do List', Icons.check, pages['ToDoPage'],
-              colour: Colors.white,
-              backgroundColor: const Color.fromARGB(
-                225,
-                39,
-                43,
-                48,
-              )),
-          const Gap(15),
-          pageButton(
-              'Routines', Icons.published_with_changes, pages['TestPage']),
-          const Gap(15),
-          pageButton('Notes', Icons.sticky_note_2_outlined, pages['TestPage']),
-          const Gap(15),
-          pageButton('Pomodoro Timer', Icons.timer_sharp, pages['TestPage']),
-          const Gap(15),
-          pageButton('Counter', Icons.token_outlined, pages['TestPage']),
-        ],
-      ),
+  Column pageColumn() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: <Widget>[
+        pageButton('To-Do List', Icons.check, pages['ToDoPage'],
+            colour: Colors.white,
+            backgroundColor: const Color.fromARGB(
+              225,
+              39,
+              43,
+              48,
+            )),
+        const Gap(15),
+        pageButton(
+            'Routines', Icons.published_with_changes, pages['TestPage']),
+        const Gap(15),
+        pageButton('Notes', Icons.sticky_note_2_outlined, pages['TestPage']),
+        const Gap(15),
+        pageButton('Pomodoro Timer', Icons.timer_sharp, pages['TestPage']),
+        const Gap(15),
+        pageButton('Counter', Icons.token_outlined, pages['TestPage']),
+      ],
     );
   }
 
-  ElevatedButton pageButton(String title, IconData icon, Widget page,
+  SizedBox pageButton(String title, IconData icon, Widget page,
       {Color colour = const Color.fromARGB(225, 134, 139, 144),
       Color backgroundColor = Colors.transparent}) {
-    return ElevatedButton.icon(
-      onPressed: () => NavManager.pushPage(context, page),
-      style: ButtonStyle(
-          // overlayColor: WidgetStateProperty.all<Color>(Colors.red),
-          alignment: Alignment.centerLeft,
-          shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-              const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10)))),
-          padding: WidgetStateProperty.all<EdgeInsets>(
-              const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
-          foregroundColor: WidgetStateProperty.all<Color>(colour),
-          backgroundColor: WidgetStateProperty.all<Color>(backgroundColor),
-          minimumSize: WidgetStateProperty.all<Size>(
-              Size(appStyle.deviceWidth - 32, 50)),
-          visualDensity: VisualDensity.adaptivePlatformDensity),
-      icon: Icon(
-        icon,
-        size: 32,
-      ),
-      label: Text(
-        title,
-        textWidthBasis: TextWidthBasis.parent,
-        style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+    return SizedBox(
+      width: double.infinity,
+      child: ElevatedButton.icon(
+        onPressed: () => NavManager.pushPage(context, page),
+        style: ButtonStyle(
+            // overlayColor: WidgetStateProperty.all<Color>(Colors.red),
+            alignment: Alignment.centerLeft,
+            shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10)))),
+            padding: WidgetStateProperty.all<EdgeInsets>(
+                const EdgeInsets.symmetric(vertical: 10, horizontal: 20)),
+            foregroundColor: WidgetStateProperty.all<Color>(colour),
+            backgroundColor: WidgetStateProperty.all<Color>(backgroundColor),
+            visualDensity: VisualDensity.adaptivePlatformDensity),
+        icon: Icon(
+          icon,
+          size: 32,
+        ),
+        label: Text(
+          title,
+          textWidthBasis: TextWidthBasis.parent,
+          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+        ),
       ),
     );
   }
