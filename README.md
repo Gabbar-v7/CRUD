@@ -48,4 +48,4 @@ _Call-to-Action buttons_
 
 ## License:
 
-This project is licensed under the MIT License - [LICENSE.md](https://github.com/Gabbar-v7)
+This project is licensed under the MIT License - [LICENSE.md](https://github.com/Gabbar-v7/CRUD/blob/master/LICENSE.md)
