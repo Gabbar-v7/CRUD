@@ -4,31 +4,61 @@
 
 # CRUD: Streamline Your Focus <img src='https://img.shields.io/github/repo-size/Gabbar-v7/CRUD?style=for-the-badge&label=REPO%20SIZE&labelColor=302D41&color=cba6f7' align='right' alt='Repo Size'>
 
-_Social buttons_
+  <p align ='center'>CRUD is a versatile productivity tool, featuring a straightforward interface and essential tools such as to-do lists, notes, routines, and a pomodoro timer. It's designed to boost efficiency effectively, making it an ideal open-source solution for organizing your tasks.</p>
+  
+  <div align='center'>
+  
+  ![Forks](https://img.shields.io/github/forks/Gabbar-v7/CRUD?style=for-the-badge&labelColor=28231d&color=grey)
+  ![Stars](https://img.shields.io/github/stars/Gabbar-v7/CRUD?style=for-the-badge&labelColor=28231d&color=grey)
+  
+  </div>
 
-[![Gabbar-v7 - CRUD](https://img.shields.io/static/v1?label=Gabbar-v7&message=CRUD&color=blueviolet&logo=github)](https://github.com/Gabbar-v7/CRUD "Go to GitHub repo")
-[![stars - CRUD](https://img.shields.io/github/stars/Gabbar-v7/CRUD?style=social)](https://github.com/Gabbar-v7/CRUD)
-[![forks - CRUD](https://img.shields.io/github/forks/Gabbar-v7/CRUD?style=social)](https://github.com/Gabbar-v7/CRUD)
+## Features:
+  - **Dynamic To-Do List Management:** Allows creation, editing, and deletion of tasks with due dates. Tasks are automatically sorted based on their due dates for better organization.
+  - **Cross-Platform Compatibility:** Seamlessly works across mobile (iOS/Android), desktop (Windows/Linux/Mac), and web platforms.
+  - **Optimized Performance:** Ensures efficient operation for smooth experience across all devices.
+  - **Parallelism:** Utilizes isolates to execute code in parallel, enhancing performance and responsiveness.
+  - **Enhanced User Interaction:** Supports multiple gestures for quicker navigation and task management.
+  - **Focused on Speed and Efficiency:** Designed for fast and intuitive use, prioritizing productivity.
 
+## Releases:
+  
 
-_Repo metadata_
+## Build:
+  ### Requirements:
+  - **Git:** [Download](https://git-scm.com/downloads)
+  - **Flutter SDK:** [Download](https://docs.flutter.dev/get-started/install)
+  - **Emulator:** [Android](https://developer.android.com/studio) [Xcode](https://developer.apple.com/xcode/)
 
+  Note: Flutter SDK includes Dart. If Dart is already installed separately, it may cause compatibility issues.
 
-[![GitHub release](https://img.shields.io/github/release/Gabbar-v7/CRUD?include_prereleases=&sort=semver&color=blueviolet)](https://github.com/Gabbar-v7/CRUD/releases/)
-[![License](https://img.shields.io/badge/License-MIT-blueviolet)](#license)
-[![issues - CRUD](https://img.shields.io/github/issues/Gabbar-v7/CRUD)](https://github.com/Gabbar-v7/CRUD/issues)
+  ### Instructions:
+  - **Clone the Repository:**
+  ```bash
+    git clone https://github.com/Gabbar-v7/CRUD.git
+  ```
+  - **Change Directory:**
+  ```bash
+    cd CRUD
+  ```
+  - **Get Packages:**
+  ```bash
+    flutter pub get
+  ```
+  - **Run Using Flutter:** Choose an appropriate emulator based on your target platform for build.
+  ```bash
+    flutter run
+  ```
+  - **Build Project:** Replace **type** with apk for Android, ios for iOS, web for Webpage.
+  ```bash
+    flutter build type
+  ```
 
-_Call-to-Action buttons_
+  Build file directory will be mentioned in the output.
 
-<div align="center">
+  For more information checkout [flutter.dev/deployment](https://docs.flutter.dev/deployment).
 
-
-
-
-
-</div>
-
-## Project Resources:
+## Resources:
 
 <div align="center">
 
@@ -36,7 +66,7 @@ _Call-to-Action buttons_
 
 </div>
 
-## Project Sponsorship:
+## Sponsorship:
 
 <div align='center'>
   
