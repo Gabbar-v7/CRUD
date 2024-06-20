@@ -22,9 +22,18 @@
   - **Focused on Speed and Efficiency:** Designed for fast and intuitive use, prioritizing productivity.
 
 ## Releases:
+
+  <div align='center'>
+    
+  [![Latest Release](https://img.shields.io/github/v/tag/Gabbar-v7/CRUD?style=for-the-badge&label=Latest%20Release&labelColor=28231d&color=grey)](https://github.com/Gabbar-v7/CRUD/releases)
   
+  [![View-ChangeLog](https://img.shields.io/badge/View-ChangeLog-grey?style=for-the-badge&labelColor=28231d&color=grey)](/CHANGELOG.md)
+  
+  </div>
 
 ## Build:
+This project is designed to be built for any platform as instructed below.
+
   ### Requirements:
   - **Git:** [Download](https://git-scm.com/downloads)
   - **Flutter SDK:** [Download](https://docs.flutter.dev/get-started/install)
@@ -62,7 +71,11 @@
 
 <div align="center">
 
-[![view - Documentation](https://img.shields.io/badge/view-Documentation-blue?style=for-the-badge)](/docs/ "Go to project documentation")
+[![View-Documentation](https://img.shields.io/badge/View-Documentation-grey?style=for-the-badge&labelColor=28231d&color=grey)](/DOCUMENTATION.md)
+
+[![View-Contributing Guidelines](https://img.shields.io/badge/View-Contributing%20Guidelines-grey?style=for-the-badge&labelColor=28231d&color=grey)](/CONTRIBUTION.md)
+
+  [![View-ChangeLog](https://img.shields.io/badge/View-ChangeLog-grey?style=for-the-badge&labelColor=28231d&color=grey)](/CHANGELOG.md)
 
 </div>
 
