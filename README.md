@@ -91,4 +91,4 @@ This project is designed to be built for any platform as instructed below.
 
 ## License:
 
-This project is licensed under the MIT License - [LICENSE.md](https://github.com/Gabbar-v7/CRUD/blob/master/LICENSE.md)
+This project is licensed under the MIT License - [LICENSE.md](/LICENSE.md)
