@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://github.com/Gabbar-v7/CRUD/blob/master/_git/crud_logo.png" alt="CRUD Logo" width="100px"/> 
+  <img src="/assets/git/Mockup.png" alt="CRUD mockup"/> 
 </div>
 
 # CRUD: Streamline Your Focus <img src='https://img.shields.io/github/repo-size/Gabbar-v7/CRUD?style=for-the-badge&label=REPO%20SIZE&labelColor=302D41&color=cba6f7' align='right' alt='Repo Size'>
