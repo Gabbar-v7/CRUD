@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'CRUD',
       themeMode: ThemeMode.dark,
-      theme: ThemeData(scaffoldBackgroundColor: const Color.fromARGB(225, 26,29,31),brightness: Brightness.dark),      
+      theme: ThemeData(scaffoldBackgroundColor: Colors.black38,brightness: Brightness.dark),      
       home: const MenuPage(),
     );
   }
