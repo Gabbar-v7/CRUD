@@ -47,7 +47,7 @@ class _ToDoPage extends State<ToDoPage> {
     }
   }
 
-  Widget categoryTile(String content) {
+  Text categoryTile(String content) {
     return Text(
       content,
       style: const TextStyle(
@@ -199,9 +199,9 @@ class _ToDoPage extends State<ToDoPage> {
                             if (_controller.text.isNotEmpty) {
                               task['title'] = _controller.text;
                               if (type == 'Create') {
-                                _controller.text = '';
-                                FocusScope.of(context).unfocus();
                                 logic.worker.crudIsolate('create', task);
+                                FocusScope.of(context).unfocus();
+                                _controller.text = '';
                               } else {
                                 logic.worker.crudIsolate('update', task);
                                 NavManager.popPage(context);

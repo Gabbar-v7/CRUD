@@ -114,15 +114,14 @@ class Worker {
         );
         completedTasks = orderTask(orderedTasks, displayTasks);
         if (message['deleteAll']) {
-          displayTasks.remove(completedTasks);
-          sendPort.send(displayTasks);
-          orderedTasks.remove(completedTasks);
           for (Map task in completedTasks) {
+          displayTasks.remove(task);
+          orderedTasks.remove(task);
             taskBox.delete(task['key']);
           }
-        } else {
+          displayTasks.remove(' Completed');
+        } 
           sendPort.send(displayTasks);
-        }
       }
     });
   }

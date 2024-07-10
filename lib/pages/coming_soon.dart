@@ -1,7 +1,7 @@
 import 'package:CRUD/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:url_launcher/url_launcher.dart';
+// import 'package:url_launcher/url_launcher.dart';
 
 class ComingSoon extends StatefulWidget {
   const ComingSoon({super.key});
@@ -45,8 +45,8 @@ class _ComingSoon extends State<ComingSoon> {
             ),
           ),
           ElevatedButton(
-              onPressed: ()=>
-                  launchUrl(Uri.parse(("https://github.com/Gabbar-v7/CRUD"))),
+              onPressed: ()=> null,
+                  // launchUrl(Uri.parse("https://github.com/Gabbar-v7/CRUD"), mode:),
               child: const Text('GitHub'))
         ],
       ),
