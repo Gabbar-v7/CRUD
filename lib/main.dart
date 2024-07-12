@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      // showPerformanceOverlay: true,
       title: 'CRUD',
       themeMode: ThemeMode.dark,
       theme: ThemeData(scaffoldBackgroundColor: Colors.black,brightness: Brightness.dark),      

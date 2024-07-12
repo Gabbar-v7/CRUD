@@ -1,7 +1,7 @@
+import 'package:CRUD/utils/mini_tools.dart';
 import 'package:CRUD/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-// import 'package:url_launcher/url_launcher.dart';
 
 class ComingSoon extends StatefulWidget {
   const ComingSoon({super.key});
@@ -26,29 +26,32 @@ class _ComingSoon extends State<ComingSoon> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appStyle.appBar('Coming Soon'),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          SizedBox(width: appStyle.deviceWidth),
-          const Text(
-            'Coming Soon',
-            style: TextStyle(fontSize: 32),
-          ),
-          const Gap(30),
-          const Padding(
-            padding: EdgeInsets.all(20.0),
-            child: Text(
-              'For More Information Checkout',
-              style: TextStyle(fontSize: 22),
-              textAlign: TextAlign.center,
+      body: appStyle.pageBorder(
+       Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(width: appStyle.deviceWidth),
+            const Text(
+              'Coming Soon',
+              style: TextStyle(fontSize: 32),
             ),
-          ),
-          ElevatedButton(
-              onPressed: ()=> null,
-                  // launchUrl(Uri.parse("https://github.com/Gabbar-v7/CRUD"), mode:),
-              child: const Text('GitHub'))
-        ],
+            const Gap(30),
+            const Padding(
+              padding: EdgeInsets.all(20.0),
+              child: Text(
+                'For More Information Checkout',
+                style: TextStyle(fontSize: 22),
+                maxLines: 2,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            ElevatedButton(
+                onPressed: ()=> 
+                    MiniTool.launchUrl("https://github.com/Gabbar-v7/CRUD"),
+                child: const Text('GitHub'))
+          ],
+        ),
       ),
     );
   }
