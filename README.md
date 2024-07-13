@@ -1,66 +1,94 @@
-# CRUD: Streamline Your Focus
+<div align="center">
+  <img src="/assets/git/Mockup.png" alt="CRUD mockup"/> 
+</div>
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Gabbar-v7/CRUD/main/_git/crud_logo.png" alt="CRUD Logo" height="200">
-</p>
-<p align="center"> 
-  <em>Create, Read, Update, Delete</em> </p>
+# CRUD: Streamline Your Focus <img src='https://img.shields.io/github/repo-size/Gabbar-v7/CRUD?style=for-the-badge&label=REPO%20SIZE&labelColor=302D41&color=cba6f7' align='right' alt='Repo Size'>
 
-Flutter CRUD is your go-to mobile app, seamlessly blending tasks, notes, and challenges into a harmonious flow for ultimate productivity.
+  <p align ='center'>CRUD is a versatile productivity tool, featuring a straightforward interface and essential tools such as to-do lists, notes, routines, and a pomodoro timer. It's designed to boost efficiency effectively, making it an ideal open-source solution for organizing your tasks.</p>
+  
+  <div align='center'>
+  
+  ![Forks](https://img.shields.io/github/forks/Gabbar-v7/CRUD?style=for-the-badge&labelColor=28231d&color=grey)
+  ![Stars](https://img.shields.io/github/stars/Gabbar-v7/CRUD?style=for-the-badge&labelColor=28231d&color=grey)
+  
+  </div>
 
-## Release
+## Features:
+  - **Dynamic To-Do List Management:** Allows creation, editing, and deletion of tasks with due dates. Tasks are automatically sorted based on their due dates for better organization.
+  - **Cross-Platform Compatibility:** Seamlessly works across mobile (iOS/Android), desktop (Windows/Linux/Mac), and web platforms.
+  - **Optimized Performance:** Ensures efficient operation for smooth experience across all devices.
+  - **Parallelism:** Utilizes isolates to execute code in parallel, enhancing performance and responsiveness.
+  - **Enhanced User Interaction:** Supports multiple gestures for quicker navigation and task management.
+  - **Focused on Speed and Efficiency:** Designed for fast and intuitive use, prioritizing productivity.
 
-Explore the latest releases and updates on our [release page](link_to_release_page).
+## Releases:
 
-## Features
+  <div align='center'>
+    
+  [![Latest Release](https://img.shields.io/github/v/tag/Gabbar-v7/CRUD?style=for-the-badge&label=Latest%20Release&labelColor=28231d&color=grey)](https://github.com/Gabbar-v7/CRUD/releases)
+  
+  [![View-ChangeLog](https://img.shields.io/badge/View-ChangeLog-grey?style=for-the-badge&labelColor=28231d&color=grey)](/CHANGELOG.md)
+  
+  </div>
 
-- **Task Mastery:** Effortlessly manage tasks in one unified space.
-- **Thought Capture:** Instantly jot down thoughts and brilliant ideas.
-- **Challenge Tracker:** Stay on top of personal challenges with ease.
+## Build:
+This project is designed to be built for any platform as instructed below.
 
-## Screenshots
+  ### Requirements:
+  - **Git:** [Download](https://git-scm.com/downloads)
+  - **Flutter SDK:** [Download](https://docs.flutter.dev/get-started/install)
+  - **Emulator:** [Android](https://developer.android.com/studio) [Xcode](https://developer.apple.com/xcode/)
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/Gabbar-v7/CRUD/main/_git/todo_page.PNG" alt="Todo Page" height="400">
-  <img src="https://raw.githubusercontent.com/Gabbar-v7/CRUD/main/_git/todo_edit.PNG" alt="Todo Edit" height="400">
-  <img src="link_to_screenshot_3" alt="Screenshot 3" height="400">
-</p>
+  Note: Flutter SDK includes Dart. If Dart is already installed separately, it may cause compatibility issues.
 
-## Getting Started
+  ### Instructions:
+  - **Clone the Repository:**
+  ```bash
+    git clone https://github.com/Gabbar-v7/CRUD.git
+  ```
+  - **Change Directory:**
+  ```bash
+    cd CRUD
+  ```
+  - **Get Packages:**
+  ```bash
+    flutter pub get
+  ```
+  - **Run Using Flutter:** Choose an appropriate emulator based on your target platform for build.
+  ```bash
+    flutter run
+  ```
+  - **Build Project:** Replace **type** with apk for Android, ios for iOS, web for Webpage.
+  ```bash
+    flutter build type
+  ```
 
-1. **Clone the Repository:**
+  Build file directory will be mentioned in the output.
 
-   ```bash
-   git clone https://github.com/Gabbar-v7/CRUD.git
-   ```
+  For more information checkout [flutter.dev/deployment](https://docs.flutter.dev/deployment).
 
-2. **Navigate to the Project Directory:**
-   ```bash
-   cd CRUD
-   ```
-3. **Get Dependencies:**
-   ```bash
-   flutter pub get
-   ```
-4. **Run the App:**
-   ```bash
-   flutter run
-   ```
+## Resources:
 
-For more details read the [Contributing.md]().
+<div align="center">
 
-## Sponsor
+[![View-Documentation](https://img.shields.io/badge/View-Documentation-grey?style=for-the-badge&labelColor=28231d&color=grey)](/DOCUMENTATION.md)
 
-If CRUD is enhancing your life, consider supporting the project by [donating](link_to_donation_page). Your contribution fuels ongoing development.
+[![View-Contributing Guidelines](https://img.shields.io/badge/View-Contributing%20Guidelines-grey?style=for-the-badge&labelColor=28231d&color=grey)](/CONTRIBUTION.md)
 
-## Contributing
+  [![View-ChangeLog](https://img.shields.io/badge/View-ChangeLog-grey?style=for-the-badge&labelColor=28231d&color=grey)](/CHANGELOG.md)
 
-We welcome contributions! Review our [contribution guidelines](link_to_contributing_guidelines) to become part of the Flutter CRUD community.
+</div>
 
-## License
+## Sponsorship:
 
-This project is licensed under the [MIT License](link_to_license).
+<div align='center'>
+  
+  [![BuyMeACoffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-ffdd00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/Gabbar_v7)
+  [![PayPal](https://img.shields.io/badge/PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.me/GabbarShall)
 
----
+</div>
 
-**Note:** .
+
+## License:
+
+This project is licensed under the MIT License - [LICENSE.md](/LICENSE.md)
