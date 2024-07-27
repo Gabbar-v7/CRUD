@@ -8,9 +8,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 class ToDoLogic {
   late Worker worker;
   late List<dynamic> displayTasks;
-  List<String> category = [' Today', ' Previous', 'Future', ' Completed'];
-  // List<String> operation = ['create', 'update', 'delete'];
-
   DateTime today = MiniTool.justDate(DateTime.now());
 
   ToDoLogic(this.displayTasks, Function updateUi) {
@@ -45,7 +42,7 @@ class Worker {
     isolate = await Isolate.spawn(_remoteIsolate, receivePort.sendPort);
   }
 
-  void crudIsolate(String type, Map task) {
+  void todoIsolate(String type, Map task) {
     sendPort.send([type, task]);
   }
 
@@ -67,7 +64,8 @@ class Worker {
       isolateReady.complete();
 
       DateTime today = DateTime.now();
-      if (!MiniTool.isSameDay(today, box.get('last_task_delete',defaultValue: DateTime(2020)))) {
+      if (!MiniTool.isSameDay(
+          today, box.get('last_task_delete', defaultValue: DateTime(2020)))) {
         sendPort.send({'path': path, 'deleteAll': true});
         box.put('last_task_delete', today);
       } else {
@@ -81,7 +79,6 @@ class Worker {
     sendPort.send(receivePort.sendPort);
     late Box taskBox;
     late List<dynamic> orderedTasks;
-    late List completedTasks;
     late List<dynamic> displayTasks = [];
 
     receivePort.listen((dynamic message) async {
@@ -90,20 +87,21 @@ class Worker {
         Map task = message[1];
         if (operation == 'create') {
           task['key'] = DateTime.now().toString();
-          taskBox.put(task['key'], task);
-          orderedTasks.add(task);
+          orderedTasks.insert(0, task);
           orderTask(orderedTasks, displayTasks);
           sendPort.send(displayTasks);
+          taskBox.put(task['key'], task);
         } else if (operation == 'update') {
-          orderedTasks[orderedTasks.indexOf(taskBox.get(task['key']))] = task;
+          orderedTasks.remove(taskBox.get(task['key']));
+          orderedTasks.insert(0, task);
+          orderTask(orderedTasks, displayTasks);
+          sendPort.send(displayTasks);
           taskBox.put(task['key'], task);
-          orderTask(orderedTasks, displayTasks);
-          sendPort.send(displayTasks);
         } else if (operation == 'delete') {
-          orderedTasks.removeAt(orderedTasks.indexOf(taskBox.get(task['key'])));
-          taskBox.delete(task['key']);
+          orderedTasks.remove(taskBox.get(task['key']));
           orderTask(orderedTasks, displayTasks);
           sendPort.send(displayTasks);
+          taskBox.delete(task['key']);
         }
       } else if (message is Map) {
         Hive.init(message['path']);
@@ -112,42 +110,40 @@ class Worker {
         orderedTasks.sort(
           (a, b) => a['dueDate'].compareTo(b['dueDate']),
         );
-        completedTasks = orderTask(orderedTasks, displayTasks);
+        orderTask(orderedTasks, displayTasks);
         if (message['deleteAll']) {
-          for (Map task in completedTasks) {
-          displayTasks.remove(task);
-          orderedTasks.remove(task);
-            taskBox.delete(task['key']);
+          int index = displayTasks.indexOf(' Completed');
+          if (index != -1) {
+            List completedTasks = displayTasks.sublist(index);
+            displayTasks.removeRange(index - 1, displayTasks.length);
+            for (Map task in completedTasks) {
+              taskBox.delete(task);
+            }
           }
-          displayTasks.remove(' Completed');
-        } 
-          sendPort.send(displayTasks);
+        }
+        sendPort.send(displayTasks);
       }
     });
   }
 
-  static List orderTask(List orderedTasks, List displayTasks) {
-    List<dynamic> todaysTasks = [];
-    List<dynamic> previousTasks = [];
-    List<dynamic> futureTasks = [];
-    List<dynamic> completedTasks = [];
-    List<String> category = [' Today', ' Previous', 'Future', ' Completed'];
+  static void orderTask(List orderedTasks, List displayTasks) {
+    List nestedList = [[], [], [], []];
+    List<String> category = [' Today', ' Previous', ' Future', ' Completed'];
 
     DateTime today = MiniTool.justDate(DateTime.now());
 
     for (Map task in orderedTasks) {
       DateTime taskDate = task['dueDate'];
-      if (task['isDone'] == true) {
-        completedTasks.add(task);
-      } else if (MiniTool.isSameDay(taskDate, today)) {
-        todaysTasks.add(task);
+      if (task['isDone']) {
+        nestedList[3].add(task);
       } else if (taskDate.isBefore(today)) {
-        previousTasks.add(task);
+        nestedList[1].add(task);
+      } else if (taskDate.isAfter(today)) {
+        nestedList[2].add(task);
       } else {
-        futureTasks.add(task);
+        nestedList[0].add(task);
       }
     }
-    List nestedList = [todaysTasks, previousTasks, futureTasks, completedTasks];
     displayTasks.clear();
     for (int i = 0; i < nestedList.length; i++) {
       if (nestedList[i].isNotEmpty) {
@@ -155,6 +151,5 @@ class Worker {
         displayTasks.addAll(nestedList[i]);
       }
     }
-    return completedTasks;
   }
 }

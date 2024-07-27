@@ -64,7 +64,7 @@ class _ToDoPage extends State<ToDoPage> {
         onHorizontalDragEnd: (detail) {
           if (detail.primaryVelocity! > 0) {
             task['isDone'] = !task['isDone'];
-            logic.worker.crudIsolate('update', task);
+            logic.worker.todoIsolate('update', task);
           } else if (detail.primaryVelocity! < 0) {
             null;
             // logic.removeTask(Data);
@@ -86,7 +86,7 @@ class _ToDoPage extends State<ToDoPage> {
                 value: task['isDone'],
                 onChanged: (bool? value) {
                   task['isDone'] = value!;
-                  logic.worker.crudIsolate('update', task);
+                  logic.worker.todoIsolate('update', task);
                 }),
             title: Text(
               task['title'],
@@ -125,7 +125,7 @@ class _ToDoPage extends State<ToDoPage> {
                         IconButton(
                           onPressed: (type == 'Edit')
                               ? () {
-                                  logic.worker.crudIsolate('delete', task);
+                                  logic.worker.todoIsolate('delete', task);
                                   NavManager.popPage(context);
                                 }
                               : null,
@@ -199,11 +199,11 @@ class _ToDoPage extends State<ToDoPage> {
                             if (_controller.text.isNotEmpty) {
                               task['title'] = _controller.text;
                               if (type == 'Create') {
-                                logic.worker.crudIsolate('create', task);
+                                logic.worker.todoIsolate('create', task);
                                 FocusScope.of(context).unfocus();
                                 _controller.text = '';
                               } else {
-                                logic.worker.crudIsolate('update', task);
+                                logic.worker.todoIsolate('update', task);
                                 NavManager.popPage(context);
                               }
                             }}
