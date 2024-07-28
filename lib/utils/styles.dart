@@ -18,10 +18,12 @@ class Styles {
           Color backgroundColor = Colors.black}) =>
       AppBar(
         backgroundColor: backgroundColor,
+        scrolledUnderElevation: 0,
         systemOverlayStyle: const SystemUiOverlayStyle(
-          statusBarColor: Colors.black38, // Set your desired color
+          statusBarColor: Colors.black, // Set your desired color
           statusBarIconBrightness: Brightness.light, // For Android (dark icons)
           statusBarBrightness: Brightness.dark, // For iOS (dark icons)
+          systemNavigationBarColor: Colors.black,
         ),
         elevation: 0,
         leading: IconButton(

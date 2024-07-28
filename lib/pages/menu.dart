@@ -1,4 +1,4 @@
-import 'package:CRUD/pages/test.dart';
+import 'package:CRUD/pages/coming_soon.dart';
 import 'package:CRUD/pages/todo_list.dart';
 import 'package:CRUD/utils/nav_manager.dart';
 import 'package:CRUD/utils/styles.dart';
@@ -8,7 +8,6 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});
-
   @override
   State<MenuPage> createState() => _MenuPage();
 }
@@ -17,7 +16,7 @@ class _MenuPage extends State<MenuPage> {
   late Styles appStyle = Styles(context);
   Box box = Hive.box('user_data');
 
-  Map pages = {'ToDoPage': const ToDoPage(), 'TestPage': const TestPage()};
+  Map pages = {'ToDoPage': const ToDoPage(), 'ComingSoon': const ComingSoon()};
 
   @override
   void initState() {
@@ -47,13 +46,13 @@ class _MenuPage extends State<MenuPage> {
             )),
         const Gap(15),
         pageButton(
-            'Routines', Icons.published_with_changes, pages['TestPage']),
+            'Routines', Icons.published_with_changes, pages['ComingSoon']),
         const Gap(15),
-        pageButton('Notes', Icons.sticky_note_2_outlined, pages['TestPage']),
+        pageButton('Notes', Icons.sticky_note_2_outlined, pages['ComingSoon']),
         const Gap(15),
-        pageButton('Pomodoro Timer', Icons.timer_sharp, pages['TestPage']),
+        pageButton('Pomodoro Timer', Icons.timer_sharp, pages['ComingSoon']),
         const Gap(15),
-        pageButton('Counter', Icons.token_outlined, pages['TestPage']),
+        pageButton('Counter', Icons.token_outlined, pages['ComingSoon']),
       ],
     );
   }
@@ -66,7 +65,6 @@ class _MenuPage extends State<MenuPage> {
       child: ElevatedButton.icon(
         onPressed: () => NavManager.pushPage(context, page),
         style: ButtonStyle(
-            // overlayColor: WidgetStateProperty.all<Color>(Colors.red),
             alignment: Alignment.centerLeft,
             shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                 const RoundedRectangleBorder(
@@ -82,14 +80,13 @@ class _MenuPage extends State<MenuPage> {
         ),
         label: Text(
           title,
-          textWidthBasis: TextWidthBasis.parent,
           style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
         ),
       ),
     );
   }
 
-  Container actionButton() {
+  Container settingButton() {
     return Container(
       decoration: BoxDecoration(
           shape: BoxShape.circle,
@@ -98,7 +95,7 @@ class _MenuPage extends State<MenuPage> {
           icon: const Icon(Icons.settings),
           iconSize: 27,
           color: Colors.white,
-          onPressed: () => NavManager.pushPage(context, pages['TestPage'])),
+          onPressed: () => NavManager.pushPage(context, pages['ComingSoon'])),
     );
   }
 
@@ -108,7 +105,7 @@ class _MenuPage extends State<MenuPage> {
       appBar: appStyle.appBar('Menu'),
       body: appStyle.pageBorder(pageColumn()),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      floatingActionButton: actionButton(),
+      floatingActionButton: settingButton(),
     );
   }
 }

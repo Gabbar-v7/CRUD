@@ -1,3 +1,4 @@
+
 import 'package:CRUD/logic/todo_list.dart';
 import 'package:CRUD/utils/nav_manager.dart';
 import 'package:CRUD/utils/styles.dart';
@@ -39,14 +40,14 @@ class _ToDoPage extends State<ToDoPage> {
   }
 
   Widget tile(dynamic content) {
-    if (!logic.category.contains(content)) {
+    if (content is Map) {
       return taskTile(content);
     } else {
-      return categoryTile(content as String);
+      return categoryTile(content);
     }
   }
 
-  Widget categoryTile(String content) {
+  Text categoryTile(String content) {
     return Text(
       content,
       style: const TextStyle(
@@ -58,13 +59,12 @@ class _ToDoPage extends State<ToDoPage> {
     return GestureDetector(
         key: ValueKey<String>(task['key']),
         onLongPress: () {
-          _controller.text = task['title'];
           taskModalSheet('Edit', Map<String, dynamic>.from(task));
         },
         onHorizontalDragEnd: (detail) {
           if (detail.primaryVelocity! > 0) {
             task['isDone'] = !task['isDone'];
-            logic.worker.crudIsolate('update', task);
+            logic.worker.todoIsolate('update', task);
           } else if (detail.primaryVelocity! < 0) {
             null;
             // logic.removeTask(Data);
@@ -86,15 +86,17 @@ class _ToDoPage extends State<ToDoPage> {
                 value: task['isDone'],
                 onChanged: (bool? value) {
                   task['isDone'] = value!;
-                  logic.worker.crudIsolate('update', task);
+                  logic.worker.todoIsolate('update', task);
                 }),
             title: Text(
               task['title'],
               style: const TextStyle(
-                  fontSize: 16,
-                  color: Colors.white,
-                  fontWeight: FontWeight.w500,
-                  overflow: TextOverflow.ellipsis),
+                fontSize: 16,
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                overflow: TextOverflow.ellipsis,
+              ),
+              maxLines: 2,
             ),
             trailing: Text(
               '${task['dueDate'].day}/${task['dueDate'].month}',
@@ -103,8 +105,9 @@ class _ToDoPage extends State<ToDoPage> {
   }
 
   Future<Widget?> taskModalSheet(String type, Map task) {
+    _controller.text = task['title'];
     return showModalBottomSheet(
-      isScrollControlled: true,
+        isScrollControlled: true,
         backgroundColor: const Color.fromARGB(255, 39, 43, 48),
         elevation: 0,
         shape: const RoundedRectangleBorder(
@@ -119,22 +122,19 @@ class _ToDoPage extends State<ToDoPage> {
                   modalStyle.appBar(type,
                       backgroundColor: Colors.transparent,
                       actions: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 25.0),
-                          child: IconButton(
-                            onPressed: (type == 'Edit')
-                                ? () {
-                                    logic.worker.crudIsolate('delete', task);
-                                    NavManager.popPage(context);
-                                  }
-                                : null,
-                            icon: const Icon(Icons.delete, size: 25),
-                            color: Colors.white,
-                            disabledColor: Colors.white54,
-                            enableFeedback: false,
-                            splashColor: Colors.transparent,
-                          ),
-                        )
+                        IconButton(
+                          onPressed: (type == 'Edit')
+                              ? () {
+                                  logic.worker.todoIsolate('delete', task);
+                                  NavManager.popPage(context);
+                                }
+                              : null,
+                          icon: const Icon(Icons.delete, size: 25),
+                          color: Colors.white,
+                          disabledColor: Colors.white54,
+                          enableFeedback: false,
+                        ),
+                        const Gap(25)
                       ]),
                   Padding(
                     padding: const EdgeInsets.all(20),
@@ -157,69 +157,67 @@ class _ToDoPage extends State<ToDoPage> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),
                               borderSide: BorderSide(color: Colors.white))),
-                      style: const TextStyle(
-                        color: Colors.white,
-                      ),
                       controller: _controller,
                       cursorColor: Colors.white70,
                       textCapitalization: TextCapitalization.sentences,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 35),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        ElevatedButton.icon(
-                          onPressed: () async {
-                            var picked = await showDatePicker(
-                              context: context,
-                              initialDate: logic.today,
-                              firstDate: DateTime(2020),
-                              lastDate: DateTime(2030),
-                            );
-                            if (picked != null && picked != task['dueDate']) {
-                              setState(() => task['dueDate'] = picked);
-                            }
-                          },
-                          label: Text(
-                            '${task['dueDate'].day}/${task['dueDate'].month}',
-                            style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: 2,
-                            ),
-                          ),
-                          icon: const Icon(Icons.calendar_month_rounded),
-                          style: ButtonStyle(
-                            backgroundColor: WidgetStateProperty.all(
-                                const Color.fromARGB(255, 252, 252, 252)),
-                            foregroundColor:
-                                WidgetStateProperty.all(Colors.black),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: () async {
+                          var picked = await showDatePicker(
+                            context: context,
+                            initialDate: task['dueDate'],
+                            firstDate: DateTime(2020),
+                            lastDate: DateTime(2030),
+                          );
+                          if (picked != task['dueDate'] && picked != null) {
+                            setState(() => task['dueDate'] = picked);
+                          }
+                        },
+                        label: Text(
+                          '${task['dueDate'].day}/${task['dueDate'].month}',
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                            letterSpacing: 2,
                           ),
                         ),
-                        const Gap(30),
-                        IconButton(
-                            onPressed: () {
-                              if (_controller.text.isNotEmpty) {
-                                task['title'] = _controller.text;
-                                if (type == 'Create') {
-                                  logic.worker.crudIsolate('create', task);
-                                } else {
-                                  logic.worker.crudIsolate('update', task);
-                                }
+                        icon: const Icon(Icons.calendar_month_rounded),
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStateProperty.all<Color>(
+                              const Color.fromARGB(255, 252, 252, 252)),
+                          foregroundColor:
+                              WidgetStateProperty.all<Color>(Colors.black),
+                        ),
+                      ),
+                      const Gap(30),
+                      IconButton(
+                          onPressed: () {
+                            if (_controller.text.isNotEmpty) {
+                              task['title'] = _controller.text;
+                              if (type == 'Create') {
+                                logic.worker.todoIsolate('create', task);
+                                FocusScope.of(context).unfocus();
+                                _controller.text = '';
+                              } else {
+                                logic.worker.todoIsolate('update', task);
                                 NavManager.popPage(context);
                               }
-                            },
-                            icon: const Icon(
-                              Icons.send,
-                              size: 33,
-                              color: Colors.white,
-                            ))
-                      ],
-                    ),
+                            }}
+                          ,
+                          icon: const Icon(
+                            Icons.send,
+                            size: 33,
+                            color: Colors.white,
+                          )),
+                      const Gap(40)
+                    ],
                   ),
-                  const Gap(15),Gap(MediaQuery.of(context).viewInsets.bottom),
+                  const Gap(15),
+                  Gap(MediaQuery.of(context).viewInsets.bottom),
                 ],
               ),
             ));
@@ -239,12 +237,8 @@ class _ToDoPage extends State<ToDoPage> {
               size: 25,
               color: Colors.white,
             ), () {
-          _controller.text = '';
           taskModalSheet(
               'Create', {'title': '', 'isDone': false, 'dueDate': logic.today});
         }));
   }
 }
-
-// taskModalSheet(
-//                     'Create', {'title': '', 'dueDate': logic.today,'isDone':false})

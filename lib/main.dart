@@ -20,9 +20,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      // showPerformanceOverlay: true,
       title: 'CRUD',
       themeMode: ThemeMode.dark,
-      theme: ThemeData(scaffoldBackgroundColor: const Color.fromARGB(225, 26,29,31),brightness: Brightness.dark),      
+      theme: ThemeData(scaffoldBackgroundColor: Colors.black,brightness: Brightness.dark),      
       home: const MenuPage(),
     );
   }
