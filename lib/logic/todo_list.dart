@@ -114,10 +114,11 @@ class Worker {
         if (message['deleteAll']) {
           int index = displayTasks.indexOf(' Completed');
           if (index != -1) {
-            List completedTasks = displayTasks.sublist(index);
-            displayTasks.removeRange(index - 1, displayTasks.length);
+            List completedTasks = displayTasks.sublist(index+1);
+            displayTasks.removeRange(index, displayTasks.length);
             for (Map task in completedTasks) {
-              taskBox.delete(task);
+              orderedTasks.remove(task);
+              taskBox.delete(task['key']);
             }
           }
         }
