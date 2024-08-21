@@ -27,7 +27,7 @@ class _MenuPage extends State<MenuPage> {
   void initState() {
     super.initState();
     NavManager.pushPage(
-        context, pages[box.get('init_page', defaultValue: 'ToDoPage')]);
+        context, pages[box.get('init_page', defaultValue: 'PomodoroTimer')]);
   }
 
   @override
