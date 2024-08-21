@@ -1,4 +1,5 @@
 import 'package:CRUD/pages/coming_soon.dart';
+import 'package:CRUD/pages/pomodoro_timer.dart';
 import 'package:CRUD/pages/todo_list.dart';
 import 'package:CRUD/utils/nav_manager.dart';
 import 'package:CRUD/utils/styles.dart';
@@ -16,7 +17,11 @@ class _MenuPage extends State<MenuPage> {
   late Styles appStyle = Styles(context);
   Box box = Hive.box('user_data');
 
-  Map pages = {'ToDoPage': const ToDoPage(), 'ComingSoon': const ComingSoon()};
+  Map pages = {
+    'ToDoPage': const ToDoPage(),
+    'PomodoroTimer': const PomodoroTimer(),
+    'ComingSoon': const ComingSoon()
+  };
 
   @override
   void initState() {
@@ -50,7 +55,8 @@ class _MenuPage extends State<MenuPage> {
         const Gap(15),
         pageButton('Notes', Icons.sticky_note_2_outlined, pages['ComingSoon']),
         const Gap(15),
-        pageButton('Pomodoro Timer', Icons.timer_sharp, pages['ComingSoon']),
+        pageButton('Pomodoro Timer', Icons.timer_sharp, pages['PomodoroTimer'],
+            colour: Colors.white),
         const Gap(15),
         pageButton('Counter', Icons.token_outlined, pages['ComingSoon']),
       ],

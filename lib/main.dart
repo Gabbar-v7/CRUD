@@ -6,7 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  
+
   await Hive.initFlutter();
   await Hive.openBox('user_data');
 
@@ -23,7 +23,8 @@ class MyApp extends StatelessWidget {
       // showPerformanceOverlay: true,
       title: 'CRUD',
       themeMode: ThemeMode.dark,
-      theme: ThemeData(scaffoldBackgroundColor: Colors.black,brightness: Brightness.dark),      
+      theme: ThemeData(
+          scaffoldBackgroundColor: Colors.black, brightness: Brightness.dark),
       home: const MenuPage(),
     );
   }
