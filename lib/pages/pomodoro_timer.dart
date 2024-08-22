@@ -1,6 +1,8 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:CRUD/utils/nav_manager.dart';
 import 'package:CRUD/utils/styles.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -85,7 +87,51 @@ class _PomodoroTimer extends State<PomodoroTimer> {
             Icons.refresh_rounded,
             size: 30,
           ),
-          () {}),
+          () => showDialog(
+                //if set to true allow to close popup by tapping out of the popup
+                barrierDismissible: true,
+                barrierColor: Color.fromARGB(115, 47, 44, 38),
+                context: context,
+                builder: (BuildContext context) => CupertinoAlertDialog(
+                  title: Text(
+                    "Confirm Reset",
+                  ),
+                  actions: <Widget>[
+                    ElevatedButton(
+                      onPressed: () => NavManager.popPage(context),
+                      style: ButtonStyle(
+                        splashFactory: NoSplash.splashFactory,
+                        overlayColor:
+                            WidgetStateProperty.all<Color>(Colors.transparent),
+                        elevation: WidgetStateProperty.all<double>(0),
+                        backgroundColor:
+                            WidgetStateProperty.all<Color>(Colors.transparent),
+                      ),
+                      child: Text(
+                        "Yes",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    ElevatedButton(
+                      style: ButtonStyle(
+                        splashFactory: NoSplash.splashFactory,
+                        overlayColor:
+                            WidgetStateProperty.all<Color>(Colors.transparent),
+                        elevation: WidgetStateProperty.all<double>(0),
+                        backgroundColor:
+                            WidgetStateProperty.all<Color>(Colors.transparent),
+                      ),
+                      child: Text(
+                        "No",
+                        style: TextStyle(
+                            color: Colors.white, fontWeight: FontWeight.bold),
+                      ),
+                      onPressed: () => NavManager.popPage(context),
+                    )
+                  ],
+                ),
+              )),
     );
   }
 }
