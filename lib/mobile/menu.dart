@@ -1,14 +1,16 @@
-import 'package:CRUD/pages/coming_soon.dart';
-import 'package:CRUD/pages/pomodoro_timer.dart';
-import 'package:CRUD/pages/todo_list.dart';
+import 'package:CRUD/mobile/coming_soon.dart';
+import 'package:CRUD/mobile/pomodoro_timer.dart';
+import 'package:CRUD/mobile/todo_list.dart';
 import 'package:CRUD/utils/nav_manager.dart';
 import 'package:CRUD/utils/styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class MenuPage extends StatefulWidget {
   const MenuPage({super.key});
+
   @override
   State<MenuPage> createState() => _MenuPage();
 }
@@ -26,14 +28,17 @@ class _MenuPage extends State<MenuPage> {
   @override
   void initState() {
     super.initState();
-    NavManager.pushPage(
-        context, pages[box.get('init_page', defaultValue: 'ToDoPage')]);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      appStyle;
+      NavManager.pushPage(
+          context, pages[box.get('init_page', defaultValue: 'ToDoPage')]);
+    });
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    appStyle;
   }
 
   Column pageColumn() {

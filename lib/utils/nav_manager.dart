@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 
 class NavManager {
   static void pushPage(BuildContext context, page) =>
-      Future.delayed(Duration.zero, () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) => page));
-      });
+      Navigator.push(context, MaterialPageRoute(builder: (context) => page));
 
   static void pushReplace(BuildContext context, page) =>
       Navigator.pushReplacement(

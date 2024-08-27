@@ -1,6 +1,5 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:CRUD/utils/nav_manager.dart';
+import 'package:CRUD/utils/notification_manager.dart';
 import 'package:CRUD/utils/styles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,21 +8,20 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class PomodoroTimer extends StatefulWidget {
   const PomodoroTimer({super.key});
+
   @override
   State<PomodoroTimer> createState() => _PomodoroTimer();
 }
 
 class _PomodoroTimer extends State<PomodoroTimer> {
   late Styles appStyle = Styles(context);
-  bool initialized = false;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!initialized) {
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       appStyle;
-      initialized = true;
-    }
+    });
   }
 
   Column layout() {
@@ -31,11 +29,11 @@ class _PomodoroTimer extends State<PomodoroTimer> {
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
-        SizedBox(
+        const SizedBox(
           width: double.infinity,
         ),
         CircularPercentIndicator(
-          key: ValueKey('Progress Bar'),
+          key: const ValueKey('Progress Bar'),
           animation: true,
           animationDuration: 600,
           circularStrokeCap: CircularStrokeCap.round,
@@ -50,26 +48,32 @@ class _PomodoroTimer extends State<PomodoroTimer> {
                 backgroundColor:
                     WidgetStateProperty.all<Color>(Colors.transparent),
                 foregroundColor: WidgetStateProperty.all<Color>(Colors.white)),
-            child: Text(
+            child: const Text(
               "30:00",
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40.0),
             ),
           ),
         ),
         const Gap(70),
-        Text(
+        const Text(
           'Focus Mode',
           style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
         ),
         const Gap(20),
         IconButton(
-            onPressed: () {},
-            icon: Icon(
+            onPressed: () {
+              NotificationService().showNotification(
+                  title: 'this',
+                  body: 'Completed',
+                  channelId: 'Pomo',
+                  channelName: 'Pomodoro Timer');
+            },
+            icon: const Icon(
               Icons.play_arrow_rounded, // pause,
               color: Colors.white,
               size: 60,
             )),
-        Text(
+        const Text(
           'Resume',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.w500),
         )
@@ -83,17 +87,17 @@ class _PomodoroTimer extends State<PomodoroTimer> {
       appBar: appStyle.appBar('Pomodoro Timer'),
       body: layout(),
       floatingActionButton: appStyle.floatButton(
-          Icon(
+          const Icon(
             Icons.refresh_rounded,
             size: 30,
           ),
           () => showDialog(
                 //if set to true allow to close popup by tapping out of the popup
                 barrierDismissible: true,
-                barrierColor: Color.fromARGB(115, 47, 44, 38),
+                barrierColor: const Color.fromARGB(115, 47, 44, 38),
                 context: context,
                 builder: (BuildContext context) => CupertinoAlertDialog(
-                  title: Text(
+                  title: const Text(
                     "Confirm Reset",
                   ),
                   actions: <Widget>[
@@ -107,7 +111,7 @@ class _PomodoroTimer extends State<PomodoroTimer> {
                         backgroundColor:
                             WidgetStateProperty.all<Color>(Colors.transparent),
                       ),
-                      child: Text(
+                      child: const Text(
                         "Yes",
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),
@@ -122,7 +126,7 @@ class _PomodoroTimer extends State<PomodoroTimer> {
                         backgroundColor:
                             WidgetStateProperty.all<Color>(Colors.transparent),
                       ),
-                      child: Text(
+                      child: const Text(
                         "No",
                         style: TextStyle(
                             color: Colors.white, fontWeight: FontWeight.bold),

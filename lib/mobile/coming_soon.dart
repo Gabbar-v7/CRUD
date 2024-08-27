@@ -5,21 +5,18 @@ import 'package:gap/gap.dart';
 
 class ComingSoon extends StatefulWidget {
   const ComingSoon({super.key});
+
   @override
   State<ComingSoon> createState() => _ComingSoon();
 }
 
 class _ComingSoon extends State<ComingSoon> {
-  bool initialized = false;
   late Styles appStyle = Styles(context);
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!initialized) {
-      appStyle;
-      initialized = true;
-    }
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => appStyle);
   }
 
   @override
@@ -27,7 +24,7 @@ class _ComingSoon extends State<ComingSoon> {
     return Scaffold(
       appBar: appStyle.appBar('Coming Soon'),
       body: appStyle.pageBorder(
-       Column(
+        Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -47,7 +44,7 @@ class _ComingSoon extends State<ComingSoon> {
               ),
             ),
             ElevatedButton(
-                onPressed: ()=> 
+                onPressed: () =>
                     MiniTool.launchUrl("https://github.com/Gabbar-v7/CRUD"),
                 child: const Text('GitHub'))
           ],

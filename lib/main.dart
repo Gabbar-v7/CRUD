@@ -1,11 +1,12 @@
-import 'package:CRUD/pages/menu.dart';
+import 'dart:io';
+
+import 'package:CRUD/mobile/menu.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
   await Hive.initFlutter();
   await Hive.openBox('user_data');
@@ -25,7 +26,9 @@ class MyApp extends StatelessWidget {
       themeMode: ThemeMode.dark,
       theme: ThemeData(
           scaffoldBackgroundColor: Colors.black, brightness: Brightness.dark),
-      home: const MenuPage(),
+      home: (!kIsWeb && Platform.isAndroid || Platform.isIOS)
+          ? const MenuPage()
+          : const Scaffold(),
     );
   }
 }

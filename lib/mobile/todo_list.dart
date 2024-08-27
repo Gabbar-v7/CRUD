@@ -1,4 +1,3 @@
-
 import 'package:CRUD/logic/todo_list.dart';
 import 'package:CRUD/utils/nav_manager.dart';
 import 'package:CRUD/utils/styles.dart';
@@ -7,6 +6,7 @@ import 'package:gap/gap.dart';
 
 class ToDoPage extends StatefulWidget {
   const ToDoPage({super.key});
+
   @override
   State<ToDoPage> createState() => _ToDoPage();
 }
@@ -17,20 +17,18 @@ class _ToDoPage extends State<ToDoPage> {
   final TextEditingController _controller = TextEditingController();
   List<dynamic> displayTasks = [];
   late ToDoLogic logic;
-  bool initialized = false;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    if (!initialized) {
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       appStyle;
       logic = ToDoLogic(
           displayTasks,
           () => setState(() {
                 displayTasks;
               }));
-      initialized = true;
-    }
+    });
   }
 
   @override
@@ -206,8 +204,8 @@ class _ToDoPage extends State<ToDoPage> {
                                 logic.worker.todoIsolate('update', task);
                                 NavManager.popPage(context);
                               }
-                            }}
-                          ,
+                            }
+                          },
                           icon: const Icon(
                             Icons.send,
                             size: 33,
