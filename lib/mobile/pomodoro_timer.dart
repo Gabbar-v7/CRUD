@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:CRUD/utils/nav_manager.dart';
 import 'package:CRUD/utils/notification_manager.dart';
 import 'package:CRUD/utils/styles.dart';
@@ -25,6 +27,9 @@ class _PomodoroTimer extends State<PomodoroTimer> {
   }
 
   Column layout() {
+    // String formattedTime =
+    //     "${(remainingTime ~/ 60).toString().padLeft(2, '0')}:${(remainingTime % 60).toString().padLeft(2, '0')}";
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -62,11 +67,13 @@ class _PomodoroTimer extends State<PomodoroTimer> {
         const Gap(20),
         IconButton(
             onPressed: () {
-              NotificationService().showNotification(
-                  title: 'this',
-                  body: 'Completed',
-                  channelId: 'Pomo',
-                  channelName: 'Pomodoro Timer');
+              Future.delayed(
+                  const Duration(seconds: 5),
+                  () => NotificationService.showNotification(
+                      title: 'Pomodoro Timer',
+                      body: 'Completed',
+                      channelId: 'pomo',
+                      channelName: 'Pomodoro Timer'));
             },
             icon: const Icon(
               Icons.play_arrow_rounded, // pause,
