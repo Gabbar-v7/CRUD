@@ -4,10 +4,12 @@ import 'package:CRUD/utils/notification_manager.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   NotificationService.init();
+  tz.initializeTimeZones();
 
   await Hive.initFlutter();
   await Hive.openBox('user_data');

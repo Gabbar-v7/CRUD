@@ -2,6 +2,7 @@ import 'package:CRUD/mobile/coming_soon.dart';
 import 'package:CRUD/mobile/pomodoro_timer.dart';
 import 'package:CRUD/mobile/todo_list.dart';
 import 'package:CRUD/utils/nav_manager.dart';
+import 'package:CRUD/utils/notification_manager.dart';
 import 'package:CRUD/utils/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -29,16 +30,17 @@ class _MenuPage extends State<MenuPage> {
   void initState() {
     super.initState();
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       appStyle;
-      NavManager.pushPage(
-          context, pages[box.get('init_page', defaultValue: 'ToDoPage')]);
+      NavManager.pushPage(context, pages['ToDoPage']);
+      listenToNotification();
     });
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
+  void listenToNotification() {
+    NotificationService.onClickNotification.stream.listen((payload) {
+      NavManager.pushPage(context, pages[payload]);
+    });
   }
 
   Column pageColumn() {

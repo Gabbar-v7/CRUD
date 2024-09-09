@@ -1,8 +1,11 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:rxdart/rxdart.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
   static final FlutterLocalNotificationsPlugin notificationsPlugin =
       FlutterLocalNotificationsPlugin();
+  static final onClickNotification = BehaviorSubject<String>();
 
   static void init() {
     const AndroidInitializationSettings initializationSettingsAndroid =
@@ -16,41 +19,79 @@ class NotificationService {
         InitializationSettings(
             android: initializationSettingsAndroid,
             iOS: initializationSettingsDarwin,
+            macOS: initializationSettingsDarwin,
             linux: initializationSettingsLinux);
     notificationsPlugin.initialize(initializationSettings,
-        onDidReceiveNotificationResponse: onDidReceiveNotificationResponse);
+        onDidReceiveNotificationResponse: onDidReceiveNotificationResponse,
+        onDidReceiveBackgroundNotificationResponse:
+            onDidReceiveNotificationResponse);
   }
 
   static void onDidReceiveLocalNotification(
-      int id, String? title, String? body, String? payload) async {
-    print(payload);
-    print('object22');
-  }
+      int id, String? title, String? body, String? payload) async {}
 
   static void onDidReceiveNotificationResponse(
       NotificationResponse notificationResponse) async {
-    final String? payload = notificationResponse.payload;
-    if (notificationResponse.payload != null) {
-      print('notification payload: $payload');
-    }
+    onClickNotification.add(notificationResponse.payload!);
   }
 
   static NotificationDetails notificationDetails(
       String channelId, String channelName) {
     return NotificationDetails(
-        android: AndroidNotificationDetails(channelId, channelName,
-            importance: Importance.max),
-        iOS: const DarwinNotificationDetails());
+      android: AndroidNotificationDetails(channelId, channelName,
+          importance: Importance.max),
+      iOS: const DarwinNotificationDetails(),
+      macOS: const DarwinNotificationDetails(),
+      linux: const LinuxNotificationDetails(),
+    );
   }
 
-  static Future showNotification(
+  static Future simple(
       {int id = 0,
-      String? title,
-      String? body,
-      String? payLoad,
+      required String? title,
+      required String? body,
+      required String? payLoad,
       String channelId = 'DefaultId',
       channelName = 'Default'}) async {
     return notificationsPlugin.show(
-        id, title, body, notificationDetails(channelId, channelName));
+        id, title, body, notificationDetails(channelId, channelName),
+        payload: payLoad);
+  }
+
+  static Future repeated(
+      {int id = 0,
+      required String? title,
+      required String? body,
+      required String? payLoad,
+      required RepeatInterval repeatInterval,
+      required DateTime scheduledNotificationDateTime,
+      String channelId = 'DefaultId',
+      channelName = 'Default'}) {
+    return notificationsPlugin.periodicallyShow(id, title, body, repeatInterval,
+        notificationDetails(channelId, channelName),
+        androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
+        payload: payLoad);
+  }
+
+  static Future scheduleNotification(
+      {int id = 0,
+      required String? title,
+      required String? body,
+      required String? payLoad,
+      required DateTime scheduledNotificationDateTime,
+      String channelId = 'DefaultId',
+      channelName = 'Default'}) async {
+    return notificationsPlugin.zonedSchedule(
+        id,
+        title,
+        body,
+        tz.TZDateTime.from(
+          scheduledNotificationDateTime,
+          tz.local,
+        ),
+        notificationDetails(channelId, channelName),
+        uiLocalNotificationDateInterpretation:
+            UILocalNotificationDateInterpretation.absoluteTime,
+        payload: payLoad);
   }
 }

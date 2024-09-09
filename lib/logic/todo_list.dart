@@ -114,7 +114,7 @@ class Worker {
         if (message['deleteAll']) {
           int index = displayTasks.indexOf(' Completed');
           if (index != -1) {
-            List completedTasks = displayTasks.sublist(index+1);
+            List completedTasks = displayTasks.sublist(index + 1);
             displayTasks.removeRange(index, displayTasks.length);
             for (Map task in completedTasks) {
               orderedTasks.remove(task);
