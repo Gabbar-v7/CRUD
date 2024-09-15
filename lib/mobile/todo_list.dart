@@ -38,11 +38,10 @@ class _ToDoPage extends State<ToDoPage> {
   }
 
   Widget tile(dynamic content) {
-    if (content is Map) {
+    if (content is Map)
       return taskTile(content);
-    } else {
+    else
       return categoryTile(content);
-    }
   }
 
   Text categoryTile(String content) {
@@ -63,11 +62,7 @@ class _ToDoPage extends State<ToDoPage> {
           if (detail.primaryVelocity! > 0) {
             task['isDone'] = !task['isDone'];
             logic.worker.todoIsolate('update', task);
-          } else if (detail.primaryVelocity! < 0) {
-            null;
-            // logic.removeTask(Data);
-            // updateData();
-          }
+          } else if (detail.primaryVelocity! < 0) null;
         },
         child: ListTile(
             visualDensity: VisualDensity.compact,
@@ -171,9 +166,8 @@ class _ToDoPage extends State<ToDoPage> {
                             firstDate: DateTime(2020),
                             lastDate: DateTime(2030),
                           );
-                          if (picked != task['dueDate'] && picked != null) {
+                          if (picked != task['dueDate'] && picked != null)
                             setState(() => task['dueDate'] = picked);
-                          }
                         },
                         label: Text(
                           '${task['dueDate'].day}/${task['dueDate'].month}',

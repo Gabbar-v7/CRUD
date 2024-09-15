@@ -68,9 +68,8 @@ class Worker {
           today, box.get('last_task_delete', defaultValue: DateTime(2020)))) {
         sendPort.send({'path': path, 'deleteAll': true});
         box.put('last_task_delete', today);
-      } else {
+      } else
         sendPort.send({'path': path, 'deleteAll': false});
-      }
     }
   }
 
@@ -135,15 +134,14 @@ class Worker {
 
     for (Map task in orderedTasks) {
       DateTime taskDate = task['dueDate'];
-      if (task['isDone']) {
+      if (task['isDone'])
         nestedList[3].add(task);
-      } else if (taskDate.isBefore(today)) {
+      else if (taskDate.isBefore(today))
         nestedList[1].add(task);
-      } else if (taskDate.isAfter(today)) {
+      else if (taskDate.isAfter(today))
         nestedList[2].add(task);
-      } else {
+      else
         nestedList[0].add(task);
-      }
     }
     displayTasks.clear();
     for (int i = 0; i < nestedList.length; i++) {

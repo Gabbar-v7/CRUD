@@ -10,7 +10,7 @@ class MiniTool {
       day_1.day == day_2.day;
 
   static void launchUrl(String url) async {
-   if (await canLaunchUrlString(url)) {
-      await launchUrlString(url,mode: LaunchMode.externalApplication);
-    }}
+    if (await canLaunchUrlString(url))
+      await launchUrlString(url, mode: LaunchMode.externalApplication);
+  }
 }

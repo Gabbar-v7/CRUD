@@ -1,3 +1,5 @@
+// ignore_for_file: curly_braces_in_flow_control_structures
+
 import 'package:CRUD/mobile/coming_soon.dart';
 import 'package:CRUD/mobile/pomodoro_timer.dart';
 import 'package:CRUD/mobile/todo_list.dart';
@@ -32,14 +34,14 @@ class _MenuPage extends State<MenuPage> {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       appStyle;
-      NavManager.pushPage(context, pages['ToDoPage']);
-      listenToNotification();
-    });
-  }
+      if (!NotificationService.onClickNotification.hasValue)
+        NavManager.pushPage(context, pages['ToDoPage']);
 
-  void listenToNotification() {
-    NotificationService.onClickNotification.stream.listen((payload) {
-      NavManager.pushPage(context, pages[payload]);
+      NotificationService.onClickNotification.listen((payload) =>
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => pages[payload]),
+              ModalRoute.withName('/')));
     });
   }
 

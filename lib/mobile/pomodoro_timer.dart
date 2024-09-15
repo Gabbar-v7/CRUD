@@ -34,17 +34,13 @@ class _PomodoroTimer extends State<PomodoroTimer> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       appStyle;
     });
-    if (state['remainingTime'] is DateTime) {
-      startTimer();
-    }
+    if (state['remainingTime'] is DateTime) startTimer();
   }
 
   @override
   void dispose() {
     super.dispose();
-    if (state['remainingTime'] is DateTime) {
-      timer.cancel();
-    }
+    if (state['remainingTime'] is DateTime) timer.cancel();
   }
 
   void initializeTimer() {
@@ -93,9 +89,9 @@ class _PomodoroTimer extends State<PomodoroTimer> {
 
   void startTimer() {
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (remainingTime > 0) {
+      if (remainingTime > 0)
         setState(() => remainingTime--);
-      } else {
+      else {
         timer.cancel();
         state['mode'] =
             (state['mode'] == 'Focus Mode') ? 'Rest Mode' : 'Focus Mode';
@@ -182,7 +178,12 @@ class _PomodoroTimer extends State<PomodoroTimer> {
                   ),
                   actions: <Widget>[
                     ElevatedButton(
-                      onPressed: () => NavManager.popPage(context),
+                      onPressed: () {
+                        logic.putBox(state['Focus Mode'], 'Focus Mode');
+                        NavManager.popPage(context);
+                        NotificationService.notificationsPlugin.cancel(843);
+                        NavManager.pushReplace(context, const PomodoroTimer());
+                      },
                       style: ButtonStyle(
                         splashFactory: NoSplash.splashFactory,
                         overlayColor:
@@ -194,7 +195,9 @@ class _PomodoroTimer extends State<PomodoroTimer> {
                       child: const Text(
                         "Yes",
                         style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+                            color: Colors.white,
+                            //fromARGB(255, 124, 170, 235),
+                            fontWeight: FontWeight.bold),
                       ),
                     ),
                     ElevatedButton(
@@ -209,7 +212,8 @@ class _PomodoroTimer extends State<PomodoroTimer> {
                       child: const Text(
                         "No",
                         style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+                            color: Color.fromARGB(255, 231, 93, 97),
+                            fontWeight: FontWeight.bold),
                       ),
                       onPressed: () => NavManager.popPage(context),
                     )
