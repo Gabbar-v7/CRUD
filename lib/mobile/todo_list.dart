@@ -218,19 +218,20 @@ class _ToDoPage extends State<ToDoPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: appStyle.appBar('To-Do List'),
-        body: appStyle.pageBorder(ListView.separated(
-            itemCount: displayTasks.length,
-            separatorBuilder: (context, index) => const Gap(10),
-            itemBuilder: (context, index) => tile(displayTasks[index]))),
-        floatingActionButton: appStyle.floatButton(
-            const Icon(
-              Icons.add,
-              size: 25,
-              color: Colors.white,
-            ), () {
-          taskModalSheet(
-              'Create', {'title': '', 'isDone': false, 'dueDate': logic.today});
-        }));
+      appBar: appStyle.appBar('To-Do List'),
+      body: appStyle.pageBorder(ListView.separated(
+          itemCount: displayTasks.length,
+          separatorBuilder: (context, index) => const Gap(10),
+          itemBuilder: (context, index) => tile(displayTasks[index]))),
+      floatingActionButton: appStyle.floatButton(
+          const Icon(
+            Icons.add,
+            size: 25,
+            color: Colors.white,
+          ), () {
+        taskModalSheet(
+            'Create', {'title': '', 'isDone': false, 'dueDate': logic.today});
+      }),
+    );
   }
 }

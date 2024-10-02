@@ -1,11 +1,9 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationService {
   static final FlutterLocalNotificationsPlugin notificationsPlugin =
       FlutterLocalNotificationsPlugin();
-  static final onClickNotification = BehaviorSubject<String>();
 
   static void init() {
     const AndroidInitializationSettings initializationSettingsAndroid =
@@ -31,9 +29,7 @@ class NotificationService {
       int id, String? title, String? body, String? payload) async {}
 
   static void onDidReceiveNotificationResponse(
-      NotificationResponse notificationResponse) async {
-    onClickNotification.add(notificationResponse.payload!);
-  }
+      NotificationResponse notificationResponse) {}
 
   static NotificationDetails notificationDetails(
       String channelId, String channelName) {

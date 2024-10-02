@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           scaffoldBackgroundColor: Colors.black, brightness: Brightness.dark),
       home: (!kIsWeb && (Platform.isAndroid || Platform.isIOS))
-          ? const MenuPage()
+          ? const Menu()
           : const Scaffold(),
     );
   }
