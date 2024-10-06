@@ -18,13 +18,6 @@ class _Menu extends State<Menu> {
     ComingSoon(),
     ComingSoon()
   ];
-  late Widget currentPage = pages[currentIndex];
-
-  @override
-  void initState() {
-    super.initState();
-    currentPage;
-  }
 
   BottomNavigationBar navigationBar() {
     return BottomNavigationBar(
