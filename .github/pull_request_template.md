@@ -23,9 +23,9 @@
 
 ## Testing
 
-- Fully tested across Android platforms.
-- Notifications function as expected with correct navigation.
-- Required permissions for notifications must be granted.
+- <!-- e.g. Fully tested across Android platforms. -->
+- <!-- Notifications function as expected with correct navigation. -->
+- <!-- Required permissions for notifications must be granted. -->
 
 ---
 
