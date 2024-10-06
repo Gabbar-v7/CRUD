@@ -1,11 +1,3 @@
----
-name: "Pull Request"
-about: "Submit major updates and optimizations"
-title: "[]: <!-- BUG, FEAT, ENAN, FEAT -->"
-labels: ""
-assignees: ""
----
-
 ## Description
 
 <!-- A clear and concise description of the updates and optimizations included in this pull request. -->
