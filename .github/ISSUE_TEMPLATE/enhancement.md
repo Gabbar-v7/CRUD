@@ -2,7 +2,7 @@
 name: "Enhancement"
 about: "Suggest an enhancement or improvement"
 title: "[ENAN]: "
-labels: enan
+labels: enhancement
 assignees: ""
 ---
 

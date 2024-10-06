@@ -2,7 +2,7 @@
 name: "Documentation Update"
 about: "Report issues or suggestions for documentation"
 title: "[DOC]: "
-labels: doc
+labels: documentation
 assignees: ""
 ---
 

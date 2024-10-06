@@ -2,7 +2,7 @@
 name: "Feature Request"
 about: "Propose a new feature for the application"
 title: "[FEAT]: "
-labels: feat
+labels: feature
 assignees: ""
 ---
 
