@@ -18,14 +18,14 @@
 
 ## Additional Updates
 
-- Improved development settings by ignoring certain warnings in analysis.yaml.
-- Removed unnecessary background color from the Android app icon.
+-
+-
 
 ## Testing
 
 - <!-- e.g. Fully tested across Android platforms. -->
-- <!-- Notifications function as expected with correct navigation. -->
-- <!-- Required permissions for notifications must be granted. -->
+- <!-- e.g. Notifications function as expected with correct navigation. -->
+- <!-- e.g. Required permissions for notifications must be granted. -->
 
 ---
 
